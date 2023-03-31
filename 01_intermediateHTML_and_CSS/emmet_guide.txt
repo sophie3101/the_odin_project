@@ -1,0 +1,38 @@
+Wrap with abbreviation: 
+Select text (optional)
+Open command palette (usually Ctrl + Shift + P )
+Execute Emmet: Wrap with Abbreviation.
+
+#add attribute
+button[type="button"]
+#create children
+
+div.purple>span.cyan
+
+# 3 li
+header>nav>ul>li*3
+
+#add text-> use {}
+header>ul>li*3{fdafasdf}
+
+# want specific text, use dollar sign $
+ nav>ul>li*3{Choice $}
+  nav>ul>li*5.class${Choice $}
+
+  if you add $$ -> create 0
+  nav>ul>li*5{Choice $$}
+
+# create sibling: use + 
+header+main+footer
+
+use ^ to exit the child
+header>nav^main+footer
+
+or use grouping
+(header>nav)+main+footer
+
+#FORM
+: mean type
+ex: form:post
+
+cheatsheet:https://docs.emmet.io/cheat-sheet/

@@ -1,0 +1,172 @@
+@font-face {
+  font-family: norse-bold;
+  src: url(Norse-Bold.otf);
+}
+*{
+  box-sizing: border-box;
+}
+:root {
+  --white-clr: #E5E7EB;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding:0;
+  background-color: var(--white-clr);
+  font-family: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+}
+
+@media(max-width: 600px){
+  .container{
+    display: flex;
+    flex-direction: column;
+  }
+}
+/* LEFT SIDE */
+.left-panel {
+  background-image: url("images/leaves.avif");
+  background-repeat: repeat;
+  background-size: 100% 100%;
+  align-self:stretch;
+  width: 35vw;
+  /* flex-grow: 1; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.left-panel p {
+  color: var(--white-clr);
+  position: absolute;
+  margin-bottom: 0;
+  bottom: 2px;
+  font-size: 0.8rem;
+}
+
+.banner {
+  padding: 10px;
+  margin: 0 auto;
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 20%;
+
+  display:flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.banner h1 {
+  color: var(--white-clr);
+  font-family: norse-bold;
+  font-size: 4rem;
+  font-weight: 300;
+
+}
+
+.banner img {
+  width: 30%; 
+  height: 100%; 
+  object-fit: contain;
+}
+
+/* RIGHT PANEL */
+
+.right-panel {
+  display: flex;
+  flex-direction: column;
+}
+
+/*  DUMMY TEXT */
+.header {
+  font-weight: 600;
+  font-size: 1.5rem;
+  padding: 2rem 3rem 1rem;
+}
+/*  FORM  */
+/* form {
+  display: flex;
+  flex-direction: column;
+
+} */
+h3 { 
+  font-size: 2rem;
+  margin: 5px;
+}
+
+.user-details {
+  background-color: white;
+  box-shadow: 10px 5px 5px rgb(179, 178, 178);
+  padding: 10px 100px 25px 50px;
+  margin-bottom: 40px;
+}
+
+.user-form {
+  display: flex;
+  gap: 6rem;
+}
+
+.user-form-left, .user-form-right {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.user-form-left  div, .user-form-right  div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+input {
+  border: 1px solid rgb(228, 223, 223);
+  border-radius: 3px;
+  width: 20rem;
+  height: 2rem; 
+  padding: 1px;
+}
+
+input:focus {
+  border: 1px solid #596D48;
+}
+label {
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+
+/* button */
+.user-submit {
+  padding-left: 2rem;
+}
+
+button{
+  background-color:#596D48;
+  color: white;
+  font-weight: var(--font-weight);
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  padding: 15px 40px;
+}
+
+button:hover{
+  box-shadow: 0px 0px 2px 2px rgb(0,0,0);
+}
+
+.user-submit p {
+  margin-top: 20px;
+  font-size: 1rem;
+  font-weight: 400;
+}
+
