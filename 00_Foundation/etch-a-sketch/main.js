@@ -27,6 +27,12 @@ function update_small_grid_color(e){
   }
   e.target.style.cssText = `background:${color}`;
 }
+
+function update_color_of_choice(e){
+  values.color = e.target.value;
+  values.color_choice = "solid_color"
+}
+
 const clear_grid = () => {
   grid_div.innerHTML = "";
 }
@@ -84,12 +90,17 @@ erase_btn.addEventListener('click', (e) => {
 })
 
 // when user change color 
-color_picker.addEventListener('click', event => {
-  values.color = event.target.value;
-  values.color_choice = "solid_color"
-})
+color_picker.addEventListener('click', update_color_of_choice);
+color_picker.addEventListener('change', update_color_of_choice);
+// color_picker.addEventListener('click', event => {
+//   values.color = event.target.value;
+//   values.color_choice = "solid_color"
+// })
+
 //when user changes grid range size
 range_picker.addEventListener('mousemove', (e) => {
+  if ( Number(values.grid_num) === Number(e.target.value))return;
+
   values.grid_num = e.target.value;
   reset_grid();
   display_range(e.target.value);
