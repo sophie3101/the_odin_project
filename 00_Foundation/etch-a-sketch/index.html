@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Etch-a-Sketch</title>
+  <link rel="stylesheet" href="style.css">
+  
+</head>
+<body>
+  <header><h1>Etch-a-Sketch</h1></header>
+  <main>
+    <div class="grid"></div>
+    <div class="setting">
+      <div class="color-choice">
+        <label for="color-picker">Pick a color </label>
+        <input type="color" name="" id="color-picker" >
+        <span>or</span>
+        <button id="random-clr-btn">Random Color</button>
+      </div>
+      <div class="btn">
+        <button id="erase-btn">Erase</button>
+        <button id="reset-btn">Reset</button>
+      </div>
+      <div class="grid-range">
+        <input  type="range" name="grid-size"  step="1" min="1" max="64" value="1" id="range-picker">
+        <label for="range-picker"></label>
+      </div>
+    </div>
+  </main>
+  <footer>Copyright &#169; by Sophie Nguyen </footer>
+  <script src="main.js"></script>
+</body>
+</html>

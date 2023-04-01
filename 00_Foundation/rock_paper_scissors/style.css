@@ -4,19 +4,22 @@
   padding: 0;
 
 }
-body{
+html, body{
   font-family:Verdana, Geneva, Tahoma, sans-serif;
-  height: 100vh;
-  width: 100vw;
+  min-height: 100%;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin : auto auto;
 }
 
 #container {
-  text-align: center;
-  max-width: 50%;
-  max-height: 50%;
-  margin: auto;
-  padding: 20vh 0;
+  width: 50%;
+  height: 50%;
   color: #475569;
+
 }
 
 #game{
@@ -26,7 +29,10 @@ body{
 
 h1{
   font-size: 3rem;
-  margin-bottom: 2rem;
+}
+
+h1,h2 {
+  margin-bottom: 1rem;
 }
 /* choice */
 #choices{
