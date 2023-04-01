@@ -92,10 +92,6 @@ erase_btn.addEventListener('click', (e) => {
 // when user change color 
 color_picker.addEventListener('click', update_color_of_choice);
 color_picker.addEventListener('change', update_color_of_choice);
-// color_picker.addEventListener('click', event => {
-//   values.color = event.target.value;
-//   values.color_choice = "solid_color"
-// })
 
 //when user changes grid range size
 range_picker.addEventListener('mousemove', (e) => {
