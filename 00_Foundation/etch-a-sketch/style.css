@@ -93,12 +93,12 @@ button:hover{
   color: white;
 }
 
-#erase-btn {
-  background-color: #06b6d4;
-}
-
 #reset-btn{
   background-color: #f87171;
+}
+
+button.active {
+  background-color: #06b6d4;
 }
 
 .btn {
