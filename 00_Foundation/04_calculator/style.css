@@ -1,0 +1,116 @@
+@font-face {
+  font-family: "spartan";
+  src: url("./LeagueSpartan-VariableFont_wght.ttf");
+}
+
+:root{
+  --font-size: 32px;
+  --font-weight: 700;
+}
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+
+body{
+  font-family: "spartan";
+  height: 100vh !important;
+  width: 100vw !important;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: var(--font-weight);
+  font-size: 32px;
+}
+
+.container{
+  width: 25% !important;
+  height: 70% !important;
+  height: 40rem;
+  display:grid;
+  grid-template-rows: auto 1fr 3fr;
+  row-gap: 1rem;
+}
+
+@media (max-width:600px){
+  body{
+    font-size: 16px;
+  }
+  .container{
+    width: 70% !important;
+    height: 80% !important;
+  }
+}
+/*  header */
+.header{
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  /* color: var(--white); */
+  font-size: 1rem;
+}
+
+.header > p {
+  font-size: 1.2rem;
+  font-weight: var(--font-weight);
+}
+
+#theme {
+  width: 30%;
+  display: flex;
+  gap: 1rem;
+  align-items: flex-end;
+}
+
+#theme-slider{
+  width: 100%;;
+}
+
+#theme-number{
+  display: flex;
+  justify-content: space-between;
+}
+/* display */
+.display {
+  padding: 1rem 1rem;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: flex-end;
+  font-size: 1rem;
+}
+
+.display >p:last-child{
+  font-weight: 600;
+  font-size: 3rem;
+}
+/* main calculator */
+.calculator{
+  padding: 1rem 1rem;
+  display: grid;
+  grid-template: repeat(5, 1fr) / repeat(4, 1fr);
+  gap: 1rem 1rem;
+}
+
+.calc-reset {
+  grid-column: 1/ span 2;
+}
+
+.calc-trigger{
+  grid-column: 3/-1;
+}
+
+.calculator button {
+  text-align: center;
+  border-radius: 5px;
+}
+
+.calculator button:hover{
+  transform: translateY(0.1rem);
+}
+.disabled{
+  pointer-events: none;
+}
