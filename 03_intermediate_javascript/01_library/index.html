@@ -32,48 +32,51 @@
       </div>
     </section>
 
-    <section id="add-book-form" class="hidden">
-      <form action="">
-        <h3>Add new book</h3>
-        <input
-          type="text"
-          name=""
-          id="book-title"
-          placeholder="Title"
-          required
-        />
-        <input
-          type="text"
-          name=""
-          id="book-author"
-          placeholder="Author"
-          required
-        />
-        <input
-          type="date"
-          name=""
-          id="book-published-date"
-          placeholder="Published Date"
-        />
-        <input
-          type="number"
-          name=""
-          id="book-pages-no"
-          placeholder="No. of pages"
-          required
-          min="1"
-        />
-        <div>
-          <label for="book-read-status">Have you read it?</label>
-          <input type="checkbox" name="" id="book-read-status" />
-        </div>
+    <div id="book-form-modal" class="modal hidden">
+      <div class="form-container">
+        <button id="close-modal-btn">&times;</button>
+        <form class="form" method="dialog">
+          <h2>Add new book</h2>
+          <input
+            type="text"
+            name=""
+            id="book-title"
+            placeholder="Title"
+            required
+          />
+          <input
+            type="text"
+            name=""
+            id="book-author"
+            placeholder="Author"
+            required
+          />
+          <input
+            type="date"
+            name=""
+            id="book-published-date"
+            placeholder="Published Date"
+          />
+          <input
+            type="number"
+            name=""
+            id="book-pages-no"
+            placeholder="No. of pages"
+            required
+            min="1"
+          />
+          <div>
+            <label for="book-read-status">Have you read it?</label>
+            <input type="checkbox" name="" id="book-read-status" />
+          </div>
 
-        <div>
-          <button type="submit" id="add-book-btn">Add To Library</button>
-          <!-- <button id="clear-btn">Clear Field</button> -->
-        </div>
-      </form>
-    </section>
+          <div>
+            <button type="submit" id="add-book-btn">Add To Library</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
     <footer>
       <p>
         Copyright &#169;

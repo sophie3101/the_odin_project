@@ -17,6 +17,9 @@ body {
   background: #f4f4f5;
 }
 
+button {
+  cursor: pointer;
+}
 /* header */
 header {
   height: min(15%, 15vh);
@@ -71,7 +74,8 @@ img {
   align-self: flex-end;
 }
 
-.card-del button {
+.card-del button,
+#close-modal-btn {
   width: 2rem;
   height: 2rem;
   border-radius: 50%;
@@ -79,10 +83,8 @@ img {
   background-color: #ef4444;
   color: var(--text-white);
 }
-.read-status {
-  align-self: flex-end;
-}
-/* ADD */
+
+/* BUTTON TO click TO SHOW BOOK FORM*/
 .add {
   width: 10vw;
   height: 30vh;
@@ -111,7 +113,7 @@ img {
   transition: all 0.3s ease-in-out 0s;
 }
 /* FORM */
-#add-book-form {
+.modal {
   margin: auto;
   position: fixed;
   top: 0;
@@ -121,21 +123,31 @@ img {
   display: flex;
   justify-content: center;
   align-items: center;
-  /* background-color: #bae6fd; */
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.form-container {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  background-color: var(--text-white);
+  width: 25vw;
+  height: 60vh;
+  padding: 2rem;
+  border-radius: 20px;
+  background-color: #fefefe;
+  margin: auto;
+  text-align: center;
 }
 
 form {
-  border-radius: 20px;
-  width: 25vw;
-  height: 60vh;
-  background-color: #fecdd3;
-  padding: 2rem;
+  flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  text-align: center;
-  font-size: inherit;
-  color: var(--text-grey);
+  align-items: space-evenly;
+  justify-content: space-evenly;
 }
 
 form > input {
@@ -158,7 +170,12 @@ form > div {
   font-size: 1.2rem;
 }
 
-#add-book-btn:hover {
+#close-modal-btn {
+  justify-self: end;
+}
+
+#add-book-btn:hover,
+#close-modal-btn:hover {
   color: var(--text-white);
   transform: translateY(2px);
 }
@@ -172,6 +189,88 @@ footer {
   bottom: 0; /*  y-position from the top of the browser*/
   width: 100%;
   text-align: center;
+}
+
+/* TOGGLE BUTTON */
+.toggle {
+  font-size: 0.6rem;
+  align-self: flex-end;
+  position: relative;
+  display: block;
+  width: 6rem;
+  height: 2rem;
+  margin: auto 0;
+  border-radius: 50px;
+  cursor: pointer;
+}
+
+.toggle-input {
+  opacity: 0;
+}
+
+.toggle-label {
+  position: relative;
+  display: block;
+  height: inherit;
+  background-color: inherit;
+  border-radius: inherit;
+  box-shadow: inset 0 1px 2px #3f3f46, inset 0 0 3px #3f3f46;
+}
+
+.toggle-label:before,
+.toggle-label:after {
+  position: absolute;
+  top: 50%;
+  line-height: 1;
+  margin-top: -0.5em;
+}
+
+.toggle-label:before {
+  content: attr(data-off);
+  right: 1rem;
+  color: var(--text-white);
+}
+
+.toggle-label:after {
+  content: attr(data-on);
+  left: 1rem;
+  color: var(--text-white);
+  opacity: 0;
+}
+
+/* the circle toggle */
+.toggle-handle {
+  position: absolute;
+  top: 1rem;
+  width: 2rem;
+  height: 2rem;
+  background: var(--text-white);
+  border-radius: 50%;
+}
+
+.toggle-input:checked ~ .toggle-label {
+  background: #10b981;
+}
+
+.toggle-input:checked ~ .toggle-label:before {
+  opacity: 0;
+}
+
+.toggle-input:checked ~ .toggle-label:after {
+  opacity: 1;
+}
+
+.toggle-input:checked ~ .toggle-handle {
+  left: 4rem;
+  box-shadow: -1px 1px 5px rgba(0, 0, 0, 0.2);
+}
+/* Transition*/
+.toggle-label,
+.toggle-handle {
+  transition: All 0.3s ease;
+  -webkit-transition: All 0.3s ease;
+  -moz-transition: All 0.3s ease;
+  -o-transition: All 0.3s ease;
 }
 
 @media (max-width: 600px) {

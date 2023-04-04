@@ -2,13 +2,12 @@
 const container = document.querySelector(".container");
 const add_book_div = document.querySelector(".add");
 const show_book_form_btn = document.getElementById("show-book-form-btn");
-const book_form_section = document.getElementById("add-book-form");
 const add_book_btn = document.getElementById("add-book-btn");
-
-let has_book_form = false;
+const close_form_btn = document.getElementById("close-modal-btn");
+const modal = document.getElementById("book-form-modal");
 
 let library = [
-  new Book("no author", "Once upon a time", "12-01-2001", "23", "not read"),
+  new Book("no author", "Once upon a time", "12-01-2001", "23", false),
 ];
 
 // function
@@ -40,8 +39,9 @@ const display_book = (book) => {
   card_div.classList.add("book");
   card_div.classList.add("card");
 
+  const read_status = book.read_status ? "checked" : "";
   const html_content = `
-  <div class="card-content" data-id=${book._id}>
+  <div class="card-content" >
     <div class="card-del">
       <button onClick="delete_book(${book._id})" id="del-btn">X</button>
     </div>
@@ -57,14 +57,21 @@ const display_book = (book) => {
     </div>
   </div>
 
-  <div class="read-status">
-    <label for="toggle">${book.read_status}</label>
-    <input type="checkbox" name="toggle" id="toggle" />
-  </div>`;
+  <label class="toggle">
+      <input class="toggle-input" type="checkbox" ${read_status}/>
+      <span class="toggle-label" data-off="NOT READ" data-on="READ"></span>
+      <span class="toggle-handle"></span>
+  </label>
+  `;
   card_div.style.backgroundColor = get_random_color();
 
   card_div.innerHTML = html_content;
   container.insertBefore(card_div, add_book_div);
+
+  const toggle_btn = document.querySelector(".toggle-input");
+  toggle_btn.onclick = (e) => {
+    book.read_status = e.target.checked;
+  };
 };
 
 const display_books = (books) => {
@@ -93,27 +100,17 @@ form.onsubmit = (event) => {
     title.value,
     publication_date.value,
     pages_no.value,
-    read_status.value
+    read_status.checked
   );
   book.set_id(library.length + 1);
   add_book_to_library(book);
   form.reset();
 };
 
-show_book_form_btn.onclick = (e) => {
-  e.stopPropagation();
-  has_book_form = !has_book_form;
-  toggle_add_book_form(has_book_form);
-};
-
-document.onclick = (e) => {
-  if (has_book_form) {
-    if (e.target === book_form_section) {
-      // the book form cover whe whole page, and the form is placed in middle
-      has_book_form = !has_book_form;
-    }
-  }
-  toggle_add_book_form(has_book_form);
+show_book_form_btn.onclick = () => modal.classList.remove("hidden");
+close_form_btn.onclick = () => modal.classList.add("hidden");
+window.onclick = (e) => {
+  if (e.target == modal) modal.classList.add("hidden");
 };
 
 // user delete book
@@ -125,7 +122,4 @@ const delete_book = (book_id) => {
   }
 };
 
-window.onload = () => {
-  display_books(library);
-  toggle_add_book_form(has_book_form);
-};
+window.onload = () => display_books(library);
