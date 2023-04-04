@@ -12,7 +12,7 @@ body {
   height: 100vh;
   width: 100vw !important;
   font-family: "Mukta";
-  font-size: 18px;
+  font-size: 1vw;
   position: relative;
   background: #f4f4f5;
 }
@@ -20,6 +20,7 @@ body {
 button {
   cursor: pointer;
 }
+
 /* header */
 header {
   height: min(15%, 15vh);
@@ -50,7 +51,7 @@ img {
 
 .card {
   width: 15vw;
-  height: 30vh;
+  height: 35vh;
   margin-inline: 1vw;
   margin-block: 1vh;
   border-radius: 20px;
@@ -62,7 +63,7 @@ img {
 }
 
 .title {
-  font-size: 1.5rem;
+  font-size: 150%;
   font-weight: 600;
 }
 .card-content {
@@ -70,17 +71,13 @@ img {
   flex-direction: column;
 }
 
-.card-del {
+#del-btn {
   align-self: flex-end;
-}
-
-.card-del button,
-#close-modal-btn {
-  width: 2rem;
-  height: 2rem;
-  border-radius: 50%;
   border: none;
-  background-color: #ef4444;
+  background: inherit;
+  font-weight: 700;
+}
+#del-btn:hover {
   color: var(--text-white);
 }
 
@@ -113,6 +110,14 @@ img {
   transition: all 0.3s ease-in-out 0s;
 }
 /* FORM */
+#close-modal-btn {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  border: none;
+  background-color: #ef4444;
+  color: var(--text-white);
+}
 .modal {
   margin: auto;
   position: fixed;
@@ -195,16 +200,20 @@ footer {
 .toggle {
   font-size: 0.6rem;
   align-self: flex-end;
+
   position: relative;
   display: block;
-  width: 6rem;
-  height: 2rem;
-  margin: auto 0;
+  width: 100px;
+  height: 35px;
+  margin: 0 0;
   border-radius: 50px;
   cursor: pointer;
 }
 
 .toggle-input {
+  position: absolute;
+  top: 0;
+  left: 0;
   opacity: 0;
 }
 
@@ -221,8 +230,9 @@ footer {
 .toggle-label:after {
   position: absolute;
   top: 50%;
-  line-height: 1;
+  color: black;
   margin-top: -0.5em;
+  line-height: 1;
 }
 
 .toggle-label:before {
@@ -241,11 +251,21 @@ footer {
 /* the circle toggle */
 .toggle-handle {
   position: absolute;
-  top: 1rem;
+  top: 1px;
+  left: 3px;
   width: 2rem;
   height: 2rem;
   background: var(--text-white);
   border-radius: 50%;
+}
+
+.toggle-handle:before {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -6px 0 0 -6px;
+  width: 16px;
+  height: 16px;
 }
 
 .toggle-input:checked ~ .toggle-label {
