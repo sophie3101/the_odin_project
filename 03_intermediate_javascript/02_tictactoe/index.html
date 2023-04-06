@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>tic-tac-toe</title>
+    <link
+      rel="shortcut icon"
+      href="images/icons8-tic-tac-toe-64.png"
+      type="image/x-icon"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <section id="section-starter">
+      <div id="starter">
+        <div id="starter-header">
+          <img src="images/cross.png" alt="cross sign" id="img-x-sign" />
+          <img src="images/o.png" alt="o sign" id="img-o-sign" />
+        </div>
+        <div id="starter-sign-selection">
+          <label for="sign-x">Sign X</label>
+          <input type="radio" name="user-sign-selection" id="sign-x" />
+          <label for="sign-o">Sign O</label>
+          <input type="radio" name="user-sign-selection" id="sign-o" />
+        </div>
+        <div id="starter-selection-mode">
+          <button id="user-vs-machine">New Game( VS Machine)</button>
+          <button id="user-vs-user">New Game( VS Player)</button>
+        </div>
+      </div>
+    </section>
+
+    <main class="disabled">
+      <div class="track-display">
+        <div>
+          <img src="images/o.png" alt="o sign" id="img-o-sign" />
+          <img src="images/cross.png" alt="cross sign" id="img-x-sign" />
+        </div>
+        <div>Display Turn here</div>
+        <div id="reset"></div>
+      </div>
+      <div class="container">
+        <div class="cell" data-row="1" data-col="1"></div>
+        <div class="cell" data-row="1" data-col="2"></div>
+        <div class="cell" data-row="1" data-col="3"></div>
+
+        <div class="cell" data-row="2" data-col="1"></div>
+        <div class="cell" data-row="2" data-col="2"></div>
+        <div class="cell" data-row="2" data-col="3"></div>
+
+        <div class="cell" data-row="3" data-col="1"></div>
+        <div class="cell" data-row="3" data-col="2"></div>
+        <div class="cell" data-row="3" data-col="3"></div>
+      </div>
+
+      <div class="result-display">
+        <div id="display-user">
+          <p>X</p>
+          <p id="user-score">Score</p>
+        </div>
+        <div id="display-tie">
+          <p>Ties</p>
+          <p id="ties-score"></p>
+        </div>
+        <div id="display-vs-user">
+          <p>O</p>
+          <p id="vs-user-score">Player</p>
+        </div>
+      </div>
+    </main>
+    <footer>
+      <p>
+        Copyright &#169;
+        <script>
+          document.write(new Date().getFullYear());
+        </script>
+        by Sophie Nguyen
+        <a
+          href="https://github.com/sophie3101/the_odin_project/tree/main/03_intermediate_javascript/01_library"
+          ><i style="font-size: 24px; color: black" class="fa">&#xf09b;</i></a
+        >
+      </p>
+    </footer>
+    <script src="script.js"></script>
+  </body>
+</html>
