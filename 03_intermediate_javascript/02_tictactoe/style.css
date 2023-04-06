@@ -3,21 +3,26 @@
   padding: 0;
   margin: 0;
 }
+
 :root {
   --yello-clr: #fcd34d;
-  --darker-yello: #f59e0b;
+  --darker-yellow: #f59e0b;
   --darker-green: #1dccb5;
-  --green-clr: #5eead4;
-  --grey: #cbd5e1;
-  --light-bg: #0c2e42;
-  --bg: #021e29;
+  --green-clr: #31c3bd;
+  --grey: #a8bfc9;
+  --light-bg: #1f3641;
+  --bg: #1a2a33;
   --dark-font-clr: #111827;
-  --cell-shadow-clr: #03121b;
+  --cell-shadow-clr: #051722;
   --font-size: 1.2rem;
   --medium-font-size: 1.4rem;
   --lg-font-size: 1.5rem;
   --grey-font: #94a3b8;
 }
+
+/* html {
+  height: 100%;
+} */
 
 body {
   padding: 0;
@@ -25,6 +30,10 @@ body {
   height: 100vh;
   width: 100vw;
   background-color: var(--bg);
+  place-content: center;
+  /* display: flex;
+  align-items: center;
+  justify-content: center; */
 }
 
 /* for x and o sign */
@@ -60,8 +69,8 @@ img {
   flex-direction: column;
 }
 
-#starter {
-  width: 20%;
+div#starter {
+  width: 30%;
   height: 70%;
   display: flex;
   flex-direction: column;
@@ -90,37 +99,75 @@ img {
 
 #starter-selection-mode > button:first-child {
   background-color: var(--yello-clr);
-  box-shadow: 0px 5px var(--darker-yello);
+  box-shadow: 0px 5px var(--darker-yellow);
 }
 
 #starter-selection-mode > button:last-child {
   background-color: var(--green-clr);
   box-shadow: 0px 5px var(--darker-green);
 }
+
+/* toggle input O or X mark */
+#starter-sign-selection {
+  width: 100%;
+  text-align: center;
+  background-color: var(--light-bg);
+  padding-inline: 2vw;
+  padding-block: 3vh;
+  color: var(--grey-font);
+}
+
+#x-btn {
+  background: url("images/cross.png") no-repeat center;
+}
+#o-btn {
+  background: url("images/o.png") no-repeat center;
+}
+#x-btn,
+#o-btn {
+  margin: 1rem 1rem;
+  width: 20vh;
+  height: 8vh;
+  background-size: contain;
+  background-color: var(--bg);
+  box-shadow: 0 8px var(--cell-shadow-clr);
+  cursor: pointer;
+  border: none;
+  border-radius: 10px;
+}
+
+#x-btn:focus,
+#o-btn:focus {
+  background-color: var(--grey);
+}
 /* game */
 .disabled {
-  /* display: none; */
   visibility: hidden;
 }
 
 main {
-  height: 90%;
-  width: 70%;
-  margin-block: auto;
+  height: 100%;
+  width: 100%;
   margin-inline: auto;
-
-  flex-direction: column;
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: center;
+}
+
+.main-frame {
+  width: 30%;
+  margin-block: auto;
+  margin-inline: auto;
+}
+.main-frame div {
+  margin-block: 1.5vh;
 }
 
 .container {
+  max-width: inherit;
   aspect-ratio: 1 / 1;
-  height: 70%;
-  max-width: 100%;
   display: grid;
-  gap: 1rem 1rem;
+  gap: 1.5vh 1.5vw;
   grid-template: repeat(3, 1fr) / repeat(3, 1fr);
 }
 
@@ -135,13 +182,16 @@ main {
 
 .disabled-pointer {
   pointer-events: none;
+  /* cursor: not-allowed; */
 }
+
 .cell-mark-X {
   width: 70%;
   height: 70%;
   background-image: url(images/cross.png);
   background-position: center center;
   background-size: contain;
+  background-repeat: no-repeat;
 }
 
 .cell-mark-O {
@@ -150,14 +200,14 @@ main {
   background-image: url(images/o.png);
   background-position: center center;
   background-size: contain;
+  background-repeat: no-repeat;
 }
 /* track */
 
 .track-display {
-  display: grid;
-  grid-template-columns: repeat(3, auto);
-  width: calc(0.7 * 70%);
-  column-gap: 3rem;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 }
 
 .track-display > div:first-child {
@@ -168,32 +218,35 @@ main {
 .track-display > div:nth-child(2n) {
   background-color: var(--light-bg);
   text-align: center;
-  padding: 1rem 1rem;
+  padding: 1rem 3rem;
   font-size: var(--font-size);
-  color: var(--grey-font);
+  color: var(--grey);
   font-weight: 700;
-}
-
-#turn-update {
-  font-weight: 1000;
-  /* font-size: 2rem; */
+  border-radius: 10px;
+  box-shadow: 0 10px var(--cell-shadow-clr);
 }
 
 #reset-btn {
   width: 6vh;
   height: 6vh;
-  background: url("images/circular-arows.png") no-repeat left center;
+  background: url("images/circular-arows.png") no-repeat center;
   background-size: contain;
   background-color: var(--grey);
-  box-shadow: 0 3px var(--grey-font);
+  box-shadow: 0 5px var(--grey-font);
+  transition: all 0.3s ease-in-out 0s;
+  cursor: pointer;
+  border: none;
+  border-radius: 10px;
 }
+
 #reset-btn:hover {
   transform: translateY(3px);
+  transition: all 0.3s ease-in-out 0s;
 }
 
 /* result display */
 .result-display {
-  width: calc(0.7 * 70%);
+  width: 100%;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   column-gap: 2rem;
@@ -219,6 +272,75 @@ main {
   background-color: var(--grey);
 }
 
+p[id$="-score"] {
+  font-size: var(--lg-font-size);
+  font-weight: 800;
+}
+
+/* dialog */
+dialog {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 25%;
+  background-color: var(--light-bg);
+  border: none;
+  text-align: center;
+  display: grid;
+  grid-template-rows: auto auto;
+  place-items: center;
+  color: var(--grey-font);
+  padding: 1rem;
+  font-size: var(--lg-font-size);
+}
+
+#dialog-btns {
+  margin-inline: auto;
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5%;
+}
+
+#dialog-close-btn {
+  background-color: inherit;
+  color: var(--grey);
+  font-weight: 700;
+  position: absolute;
+  display: block;
+  top: 0;
+  right: 0;
+}
+
+dialog button {
+  font-size: var(--lg-font-size);
+  padding: 1rem 2rem;
+  border-radius: 10px;
+  border: none;
+  /* width: 20%; */
+}
+
+#restart-btn {
+  background-color: var(--grey);
+  box-shadow: 0 5px var(--grey-font);
+}
+
+#next-round-btn {
+  box-shadow: 0 5px var(--darker-yellow);
+  background-color: var(--yello-clr);
+}
+
+dialog:not([open]) {
+  pointer-events: none;
+  opacity: 0;
+}
+
+dialog::backdrop {
+  backdrop-filter: blur(5px);
+}
 /* footer */
 footer {
   position: absolute;
@@ -226,7 +348,9 @@ footer {
   left: 0;
   right: 0;
 }
+
 footer p {
   display: flex;
   justify-content: center;
+  color: var(--grey-font);
 }

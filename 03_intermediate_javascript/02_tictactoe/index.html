@@ -17,17 +17,29 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <dialog id="dialog" modal-mode="mega">
+      <button id="dialog-close-btn" onclick="window.dialog.close()">X</button>
+      <h1 id="dialog-header"></h1>
+      <div id="dialog-btns">
+        <button id="restart-btn">Start Over</button>
+        <button id="next-round-btn">Next round</button>
+      </div>
+    </dialog>
+
     <section id="section-starter">
       <div id="starter">
         <div id="starter-header">
-          <img src="images/cross.png" alt="cross sign" class="img-x-sign x" />
-          <img src="images/o.png" alt="o sign" class="img-o-sign o" />
+          <img src="images/cross.png" alt="cross sign" class="img-x-sign" />
+          <img src="images/o.png" alt="o sign" class="img-o-sign" />
         </div>
         <div id="starter-sign-selection">
-          <label for="sign-x">Sign X</label>
+          <!-- <label for="sign-x">Sign X</label>
           <input type="radio" name="user-sign-selection" id="sign-x" />
           <label for="sign-o">Sign O</label>
-          <input type="radio" name="user-sign-selection" id="sign-o" />
+          <input type="radio" name="user-sign-selection" id="sign-o" /> -->
+          <h3>PICK YOUR MARK</h3>
+          <button id="x-btn" type="button" data-icon="x"></button>
+          <button id="o-btn" type="button" data-icon="o"></button>
         </div>
         <div id="starter-selection-mode">
           <button id="user-vs-machine">New Game( VS Machine)</button>
@@ -37,43 +49,41 @@
     </section>
 
     <main id="game-section" class="disabled">
-      <div class="track-display">
-        <div>
-          <img src="images/cross.png" alt="cross sign" class="img-x-sign" />
-          <img src="images/o.png" alt="o sign" class="img-o-sign" />
+      <div class="main-frame">
+        <div class="track-display">
+          <div>
+            <img src="images/cross.png" alt="cross sign" class="img-x-sign" />
+            <img src="images/o.png" alt="o sign" class="img-o-sign" />
+          </div>
+          <div id="turn-display">
+            <span id="turn-update-content"></span> TURN
+          </div>
+          <div id="reset">
+            <button id="reset-btn" type="reset"></button>
+            <!-- <i class="fa fa-refresh"></i> -->
+          </div>
         </div>
-        <div><span id="turn-update"></span> TURN</div>
-        <div id="reset">
-          <button id="reset-btn" type="reset"></button>
-          <!-- <i class="fa fa-refresh"></i> -->
-        </div>
-      </div>
-      <div class="container">
-        <div class="cell" data-row="1" data-col="1"></div>
-        <div class="cell" data-row="1" data-col="2"></div>
-        <div class="cell" data-row="1" data-col="3"></div>
+        <div class="container">
+          <div class="cell" data-row="1" data-col="1"></div>
+          <div class="cell" data-row="1" data-col="2"></div>
+          <div class="cell" data-row="1" data-col="3"></div>
 
-        <div class="cell" data-row="2" data-col="1"></div>
-        <div class="cell" data-row="2" data-col="2"></div>
-        <div class="cell" data-row="2" data-col="3"></div>
+          <div class="cell" data-row="2" data-col="1"></div>
+          <div class="cell" data-row="2" data-col="2"></div>
+          <div class="cell" data-row="2" data-col="3"></div>
 
-        <div class="cell" data-row="3" data-col="1"></div>
-        <div class="cell" data-row="3" data-col="2"></div>
-        <div class="cell" data-row="3" data-col="3"></div>
-      </div>
+          <div class="cell" data-row="3" data-col="1"></div>
+          <div class="cell" data-row="3" data-col="2"></div>
+          <div class="cell" data-row="3" data-col="3"></div>
+        </div>
 
-      <div class="result-display">
-        <div id="display-user">
-          <p>X</p>
-          <p id="user-score">Score</p>
-        </div>
-        <div id="display-tie">
-          <p>Ties</p>
-          <p id="ties-score"></p>
-        </div>
-        <div id="display-other-user">
-          <p>O</p>
-          <p id="vs-user-score">Player</p>
+        <div class="result-display">
+          <div id="display-user"></div>
+          <div id="display-tie">
+            <p>Ties</p>
+            <p id="ties-score">0</p>
+          </div>
+          <div id="display-other-user"></div>
         </div>
       </div>
     </main>
@@ -85,8 +95,10 @@
         </script>
         by Sophie Nguyen
         <a
-          href="https://github.com/sophie3101/the_odin_project/tree/main/03_intermediate_javascript/01_library"
-          ><i style="font-size: 24px; color: black" class="fa">&#xf09b;</i></a
+          href="https://github.com/sophie3101/the_odin_project/tree/main/03_intermediate_javascript/02_tictactoe"
+          ><i style="font-size: 24px; color: rgb(228, 223, 223)" class="fa"
+            >&#xf09b;</i
+          ></a
         >
       </p>
     </footer>
