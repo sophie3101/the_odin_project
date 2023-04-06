@@ -1,21 +1,20 @@
-// const Player = function (name, markType) {
-//   let status = false; //false for inactive and true for active
+const Player = function (name, markType) {
+  let status = false; //false for inactive and true for active
+  score = 0;
+  return {
+    name,
+    markType,
+    status,
+    updateStatus() {
+      this.status = !status;
+    },
+    updateScore() {
+      this.score++;
+    },
+  };
+};
 
-//   return {
-//     status,
-//     updateStatus() {
-//       this.status = !status;
-//     },
-//     markType,
-//   };
-// };
-function Player(name, markType) {
-  this.name = name;
-  this.markType = markType;
-  this.status = false;
-  this.updateStatus = () => (this.status = !this.status);
-}
-const gameBoard = () => {
+const GameBoard = () => {
   //initialize game board array
   let board;
   const initializeBoard = () => {
@@ -29,8 +28,9 @@ const gameBoard = () => {
     }
   };
 
-  const updateBoard = (row_index, col_index, value) => {
-    board[row_index][col_index] = value;
+  const updateBoard = (rowIdx, colIdx, value) => {
+    console.log("updateboard with ", rowIdx, colIdx);
+    board[rowIdx][colIdx] = value;
   };
 
   const printBoard = () => console.log(board);
@@ -45,8 +45,14 @@ const gameBoard = () => {
     return emptyIndices;
   };
 
-  const getRandomEmptyCell = (emptyIndices) =>
-    emptyIndices[Math.floor(Math.random() * emptyIndices.length())];
+  // const getRandomEmptyCell = (emptyIndices) =>
+  //   emptyIndices[Math.floor(Math.random() * emptyIndices.length())];
+
+  const getRandomEmptyCell = () => {
+    const emptyIndices = getEmptyCells();
+    console.log("empty cell indices: ", emptyIndices);
+    return emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
+  };
 
   const countEmptyCell = () => {
     let total = 0;
@@ -97,6 +103,7 @@ const gameBoard = () => {
       });
       has_winner = diagonal_sum.indexOf(3) !== -1;
     }
+    console.log(has_winner);
     return has_winner;
   };
 
@@ -111,35 +118,70 @@ const gameBoard = () => {
   };
 };
 
-const gameController = (...players) => {
+const GameController = (...players) => {
   // pick a random player to start the game
   let playerActiveIdx = Math.round(Math.random());
-  let game = gameBoard();
-  game.initializeBoard();
-  // players[playerActiveIdx].updateStatus();
+  let gameBoard = GameBoard();
+  gameBoard.initializeBoard();
+
+  const getActivePlayerIdx = () => playerActiveIdx;
+
+  const getActivePlayerMark = () => players[playerActiveIdx].markType;
 
   const playerCheckMark = (rowIndex, colIndex) => {
     const currentPlayer = players[playerActiveIdx];
-    game.updateBoard(rowIndex, colIndex, currentPlayer.markType);
+    gameBoard.updateBoard(rowIndex, colIndex, currentPlayer.markType);
     currentPlayer.updateStatus();
-    game.printBoard();
+    gameBoard.printBoard();
 
     // switch to other player
     playerActiveIdx = playerActiveIdx === 1 ? 0 : 1;
-    console.log("playerIdx", playerActiveIdx);
+
+    console.log("playerIdx after switch", playerActiveIdx);
   };
 
-  const getActivePlayerIdx = () => playerActiveIdx;
-  return { playerCheckMark, getActivePlayerIdx };
+  const canGameEnd = () => gameBoard.countEmptyCell === 0;
+  const otherPlayerPlay = () => {
+    randomIndices = gameBoard.getRandomEmptyCell();
+    const activePlayerMark = getActivePlayerMark();
+    console.log("random cell: ", randomIndices);
+    playerCheckMark(...randomIndices);
+    return { indices: randomIndices, markType: activePlayerMark };
+  };
+
+  // const restartGame = () => (gameBoard = GameBoard());
+  const restartGame = () => gameBoard.initializeBoard();
+  const hasWinner = (markType) => gameBoard.checkBoard(markType);
+  return {
+    playerCheckMark,
+    getActivePlayerIdx,
+    otherPlayerPlay,
+    getActivePlayerMark,
+    restartGame,
+    hasWinner,
+    canGameEnd,
+  };
 };
 
 (function (document) {
+  const starterSection = document.getElementById("section-starter");
   const userAndMachineBtn = document.getElementById("user-vs-machine");
   const userAndUser = document.getElementById("user-vs-user");
   const signs = document.getElementsByName("user-sign-selection");
-  let userSignSelection = "";
-  let start_game = false;
+  //game
+  const gameSection = document.getElementById("game-section");
+  const userScoreDiv = document.getElementById("display-user");
+  const otherUserScoreDiv = document.getElementById("display-other-user");
+  const resetBtn = document.getElementById("reset-btn");
+  const turnDisplayDiv = document.getElementById("turn-update");
+  let gameController;
 
+  // game
+  const cells = document.querySelectorAll(".cell");
+
+  //
+  let userSignSelection = "";
+  // in firefox the radio button is automatically checked
   signs.forEach((sign) => {
     if (sign.checked) userSignSelection = sign.id;
   });
@@ -151,48 +193,94 @@ const gameController = (...players) => {
       })
   );
 
-  userAndMachineBtn.onclick = () => {
-    start_game = true;
-    // userAndUser.disabled = !userAndUser.disabled;
+  userAndMachineBtn.onclick = (e) => displayGame(e);
+
+  userAndUser.onclick = (e) => displayGame(e);
+
+  const updateScreen = (indices, markType) => {
+    // console.log("marktype", markType, indices);
+    cells.forEach((cell) => {
+      if (
+        Number(cell.dataset.row) === indices[0] + 1 &&
+        Number(cell.dataset.col) === indices[1] + 1
+      ) {
+        const markDiv = document.createElement("div");
+        markDiv.classList.add(`cell-mark-${markType}`);
+        cell.classList.add("disabled-pointer");
+        cell.appendChild(markDiv);
+      }
+    });
   };
 
-  userAndUser.onclick = () => {
-    // userAndMachineBtn.disabled = !userAndMachineBtn.disabled;
-    start_game = true;
-  };
+  const updateTurn = (markType) => (turnDisplayDiv.innerText = `${markType}`);
 
-  const startGame = (e) => {
+  const displayQuestion = () => {
+    // ask user if they want to continue the game or not
+  };
+  const displayGame = (e) => {
     console.log("user select sign: ", userSignSelection);
+    if (userSignSelection === "sign-x") {
+      userScoreDiv.classList.add("x");
+      otherUserScoreDiv.classList.add("o");
+    } else {
+      userScoreDiv.classList.add("o");
+      otherUserScoreDiv.classList.add("x");
+    }
+    const userMarkSign = userSignSelection === "sign-x" ? "X" : "O";
+
+    const userPlayer = Player("user", userMarkSign);
+    const otherSign = userMarkSign === "X" ? "O" : "X";
+    let otherPlayer;
+    if (e.target === userAndMachineBtn) {
+      otherPlayer = Player("machine", otherSign);
+    } else {
+      otherPlayer = Player("otherUser", otherSign);
+    }
+    console.log(userPlayer, otherPlayer);
+    starterSection.classList.add("disabled");
+    gameSection.classList.remove("disabled");
+
+    //start game
+
+    startGame(userPlayer, otherPlayer);
+  };
+
+  const startGame = (userPlayer, otherPlayer) => {
+    gameController = GameController(userPlayer, otherPlayer);
+    let activePlayerIdx = gameController.getActivePlayerIdx();
+    console.log("active player idx: ", activePlayerIdx);
+    updateTurn(gameController.getActivePlayerMark());
+    //start Case 1: user vs machine
+    // if (activePlayerIdx === 1) {
+    //   let { indices, markType } = gameController.otherPlayerPlay();
+    //   updateScreen(indices, markType);
+    // }
+
+    // start case 1: user vs another user
+    cells.forEach(
+      (cell) =>
+        (cell.onclick = (e) => {
+          const rowIdx = Number(e.target.dataset.row) - 1;
+          const colIdx = Number(e.target.dataset.col) - 1;
+          const markType = gameController.getActivePlayerMark();
+          gameController.playerCheckMark(rowIdx, colIdx);
+          updateScreen([rowIdx, colIdx], markType);
+          if (gameController.hasWinner(markType)) {
+          }
+          if (gameController) updateTurn(gameController.getActivePlayerMark());
+        })
+    );
+  };
+
+  resetBtn.onclick = (e) => {
+    gameController.restartGame();
+    const cellMarks = document.querySelectorAll('div[class^="cell-mark-"]');
+    cellMarks.forEach((cell) => {
+      cell.parentNode.removeChild(cell);
+    });
+    // remove disabled class
+    document
+      .querySelectorAll(".disabled-pointer")
+      .forEach((div) => div.classList.remove("disabled-pointer"));
   };
 })(document);
-// const game = gameBoard();
-// game.initializeBoard();
-// game.printBoard();
-// // by row
-// game.updateBoard(1, 0, "X");
-// game.updateBoard(1, 1, "X");
-// game.updateBoard(1, 2, "X");
-// console.log(game.countEmptyCell());
-// game.printBoard();
-// game.getEmptyCells();
-// game.initializeBoard();
-// check by col
-// game.updateBoard(0, 1, "X");
-// game.updateBoard(1, 1, "X");
-// game.updateBoard(2, 1, "X");
-//by diagnoal
-// game.updateBoard(0, 0, "X");
-// game.updateBoard(1, 1, "X");
-// game.updateBoard(2, 2, "X");
-
-// game.updateBoard(0, 2, "X");
-// game.updateBoard(1, 1, "X");
-// game.updateBoard(2, 0, "X");
-// game.printBoard();
-// console.log(game.checkBoard("X"));
-
-// let playerOne = new Player("user", "X");
-// let playerTwo = new Player("machine", "O");
-// let game_controller = gameController(playerOne, playerTwo);
-// game_controller.playerCheckMark(1, 1);
-// console.log("playerIdx", game_controller.getActivePlayerIdx());

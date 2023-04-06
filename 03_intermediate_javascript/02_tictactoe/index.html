@@ -20,8 +20,8 @@
     <section id="section-starter">
       <div id="starter">
         <div id="starter-header">
-          <img src="images/cross.png" alt="cross sign" id="img-x-sign" />
-          <img src="images/o.png" alt="o sign" id="img-o-sign" />
+          <img src="images/cross.png" alt="cross sign" class="img-x-sign x" />
+          <img src="images/o.png" alt="o sign" class="img-o-sign o" />
         </div>
         <div id="starter-sign-selection">
           <label for="sign-x">Sign X</label>
@@ -36,14 +36,17 @@
       </div>
     </section>
 
-    <main class="disabled">
+    <main id="game-section" class="disabled">
       <div class="track-display">
         <div>
-          <img src="images/o.png" alt="o sign" id="img-o-sign" />
-          <img src="images/cross.png" alt="cross sign" id="img-x-sign" />
+          <img src="images/cross.png" alt="cross sign" class="img-x-sign" />
+          <img src="images/o.png" alt="o sign" class="img-o-sign" />
         </div>
-        <div>Display Turn here</div>
-        <div id="reset"></div>
+        <div><span id="turn-update"></span> TURN</div>
+        <div id="reset">
+          <button id="reset-btn" type="reset"></button>
+          <!-- <i class="fa fa-refresh"></i> -->
+        </div>
       </div>
       <div class="container">
         <div class="cell" data-row="1" data-col="1"></div>
@@ -68,7 +71,7 @@
           <p>Ties</p>
           <p id="ties-score"></p>
         </div>
-        <div id="display-vs-user">
+        <div id="display-other-user">
           <p>O</p>
           <p id="vs-user-score">Player</p>
         </div>
