@@ -31,7 +31,6 @@ const GameBoard = () => {
   };
 
   const updateBoard = (rowIdx, colIdx, value) => {
-    console.log("updateboard with ", rowIdx, colIdx);
     board[rowIdx][colIdx] = value;
   };
 
@@ -47,12 +46,8 @@ const GameBoard = () => {
     return emptyIndices;
   };
 
-  // const getRandomEmptyCell = (emptyIndices) =>
-  //   emptyIndices[Math.floor(Math.random() * emptyIndices.length())];
-
   const getRandomEmptyCell = () => {
     const emptyIndices = getEmptyCells();
-    console.log("empty cell indices: ", emptyIndices);
     return emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
   };
 
@@ -123,7 +118,8 @@ const GameBoard = () => {
 
 const GameController = (...players) => {
   // pick a random player to start the game
-  let playerActiveIdx = Math.round(Math.random());
+  const getFirstPlayerIdx = () => Math.round(Math.random());
+  let playerActiveIdx = getFirstPlayerIdx();
   let gameBoard = GameBoard();
   gameBoard.initializeBoard();
 
@@ -132,32 +128,53 @@ const GameController = (...players) => {
   const getActivePlayerMark = () => players[playerActiveIdx].markType;
 
   const playerCheckMark = (rowIndex, colIndex) => {
-    console.log("playActiveidx", playerActiveIdx);
-    const currentPlayer = players[playerActiveIdx];
-    gameBoard.updateBoard(rowIndex, colIndex, currentPlayer.markType);
-    currentPlayer.updateStatus();
-    gameBoard.printBoard();
+    const currentMarker = getActivePlayerMark();
 
+    // update on gameboard array
+    gameBoard.updateBoard(rowIndex, colIndex, currentMarker);
+
+    // update on display
+    displayController.updateScreen([rowIndex, colIndex], currentMarker);
+
+    // check if there is a winner
+    if (gameBoard.checkBoard(currentMarker)) {
+      const winnerName = getWinnerName(currentMarker);
+      displayController.showDialog(`${winnerName} wins!!!`);
+      displayController.showScores(...players);
+      displayController.disableAllCells();
+      return;
+    }
+
+    // check if game board is filled
+    if (canGameEnd()) {
+      displayController.showDialog("TIE");
+      displayController.showScores(...players, true);
+      return;
+    }
     // switch to other player
     playerActiveIdx = playerActiveIdx === 1 ? 0 : 1;
 
-    console.log("currentPlayer idx ", playerActiveIdx);
+    console.log("next playerIdx ", playerActiveIdx, getActivePlayerMark());
+    displayController.updateTurn(getActivePlayerMark());
+    // gameBoard.printBoard();
+    if (players[1].type === "machine" && playerActiveIdx === 1) {
+      setTimeout(() => machinePlayerPlay(), 600);
+    }
   };
 
   const canGameEnd = () => gameBoard.countEmptyCell() === 0;
 
-  const otherPlayerPlay = () => {
+  const machinePlayerPlay = () => {
     randomIndices = gameBoard.getRandomEmptyCell();
     const activePlayerMark = getActivePlayerMark();
     // console.log("random cell: ", randomIndices);
     playerCheckMark(...randomIndices);
-    return { indices: randomIndices, markType: activePlayerMark };
   };
 
-  // const restartGame = () => (gameBoard = GameBoard());
-  const restartGame = () => gameBoard.initializeBoard();
-
-  const hasWinner = (markType) => gameBoard.checkBoard(markType);
+  const restartGame = () => {
+    gameBoard.initializeBoard();
+    playerActiveIdx = getActivePlayerIdx();
+  };
 
   const getWinnerName = (markType) => {
     const winnerPlayer = players.find((player) => player.markType === markType);
@@ -172,25 +189,18 @@ const GameController = (...players) => {
   return {
     playerCheckMark,
     getActivePlayerIdx,
-    otherPlayerPlay,
+    machinePlayerPlay,
     getActivePlayerMark,
     restartGame,
-    hasWinner,
-    canGameEnd,
-    getWinnerName,
   };
 };
 
-(function (document) {
+const displayController = (() => {
   const userAndMachineBtn = document.getElementById("user-vs-machine");
   const userAndUser = document.getElementById("user-vs-user");
   const starterSection = document.getElementById("section-starter");
   const gameSection = document.getElementById("game-section");
-
-  let gameController;
-
   const signsBtn = document.querySelectorAll("button[type='button']");
-  console.log(signsBtn);
   // game
   const userScoreDiv = document.getElementById("display-user");
   const otherUserScoreDiv = document.getElementById("display-other-user");
@@ -198,15 +208,17 @@ const GameController = (...players) => {
   const cells = document.querySelectorAll(".cell");
 
   let userSignSelection = "";
+  let gameController;
 
   signsBtn.forEach(
     (sign) =>
       (sign.onclick = (e) => {
-        console.log(e);
-        console.log(sign.dataset.icon);
         userSignSelection = sign.dataset.icon;
       })
   );
+
+  const resetBtn = document.getElementById("reset-btn");
+  resetBtn.onclick = () => resetGame();
 
   userAndMachineBtn.onclick = (e) => displayGame(e);
 
@@ -272,6 +284,7 @@ const GameController = (...players) => {
     );
     console.log(userPlayer, otherPlayer);
     // append color, text and class for result display div
+    userScoreDiv.classList = [];
     userScoreDiv.classList.add(`${userMarkSign.toLowerCase()}`);
     userScoreDiv.appendChild(
       createElement(
@@ -284,6 +297,7 @@ const GameController = (...players) => {
       createElement("p", userPlayer.score, `${userPlayer.name}-score`)
     );
 
+    otherUserScoreDiv.classList = [];
     otherUserScoreDiv.classList.add(`${otherUserMarkSign.toLowerCase()}`);
     const otherUserDisplayName =
       otherPlayerType === "human"
@@ -304,53 +318,43 @@ const GameController = (...players) => {
     startGame(userPlayer, otherPlayer);
   };
 
-  const machinePlay = (gameController) => {
-    let { indices, markType } = gameController.otherPlayerPlay();
-    updateScreen(indices, markType);
-
-    return markType;
-  };
-
   const startGame = (userPlayer, otherPlayer) => {
     gameController = GameController(userPlayer, otherPlayer);
     let activePlayerIdx = gameController.getActivePlayerIdx();
     console.log("active player idx: ", activePlayerIdx);
     updateTurn(gameController.getActivePlayerMark());
-    let markType;
-    // start case 1: user vs another user
+
+    // user vs MACHINE: if machine has to be the first player
+    if (activePlayerIdx === 1 && otherPlayer.type === "machine")
+      gameController.machinePlayerPlay();
+
+    // when user clicks
     cells.forEach(
       (cell) =>
         (cell.onclick = (e) => {
           if (e.target.textContent !== "") return;
           const rowIdx = Number(e.target.dataset.row) - 1;
           const colIdx = Number(e.target.dataset.col) - 1;
-          markType = gameController.getActivePlayerMark();
-          console.log("user mark type ", markType);
           gameController.playerCheckMark(rowIdx, colIdx);
-          updateScreen([rowIdx, colIdx], markType);
-
-          if (otherPlayer.type === "machine" && !gameController.canGameEnd()) {
-            setTimeout(() => {
-              markType = machinePlay(gameController);
-            }, 600);
-          }
-
-          if (gameController.hasWinner(markType)) {
-            const winnerName = gameController.getWinnerName(markType);
-            console.log(userPlayer, otherPlayer, winnerName);
-            showScores(userPlayer, otherPlayer);
-            showDialog(`${winnerName} wins!!!`);
-          } else if (gameController.canGameEnd()) {
-            showScores(userPlayer, otherPlayer, true);
-            showDialog("TIE");
-          }
-          updateTurn(gameController.getActivePlayerMark());
         })
     );
+  };
 
-    //start Case 2: user vs MACHINE
-    if (activePlayerIdx === 1 && otherPlayer.type === "machine")
-      machinePlay(gameController);
+  const resetGame = () => {
+    gameController.restartGame();
+    const cellMarks = document.querySelectorAll('div[class^="cell-mark-"]');
+    cellMarks.forEach((cell) => {
+      cell.parentNode.removeChild(cell);
+    });
+    // remove disabled class
+    document
+      .querySelectorAll(".disabled-pointer")
+      .forEach((div) => div.classList.remove("disabled-pointer"));
+  };
+
+  const disableAllCells = () => {
+    //not allow to add any mark when winner is identified
+    cells.forEach((cell) => cell.classList.add("disabled-pointer"));
   };
 
   const showScores = (userPlayer, otherPlayer, tie = false) => {
@@ -374,7 +378,6 @@ const GameController = (...players) => {
 
     const restartBtn = document.getElementById("restart-btn");
     restartBtn.onclick = (e) => {
-      console.log(e);
       dialog.close();
       resetGame();
       tieScoreP.innerText = 0;
@@ -383,24 +386,12 @@ const GameController = (...players) => {
 
     const nextBtn = document.getElementById("next-round-btn");
     nextBtn.onclick = (e) => {
-      console.log(e);
       resetGame();
       dialog.close();
     };
+
+    document.getElementById("dialog-close-btn").onclick = () => dialog.close();
   };
 
-  const resetGame = () => {
-    gameController.restartGame();
-    const cellMarks = document.querySelectorAll('div[class^="cell-mark-"]');
-    cellMarks.forEach((cell) => {
-      cell.parentNode.removeChild(cell);
-    });
-    // remove disabled class
-    document
-      .querySelectorAll(".disabled-pointer")
-      .forEach((div) => div.classList.remove("disabled-pointer"));
-  };
-
-  const resetBtn = document.getElementById("reset-btn");
-  resetBtn.onclick = () => resetGame();
-})(document);
+  return { showDialog, showScores, disableAllCells, updateScreen, updateTurn };
+})();
