@@ -21,6 +21,7 @@ addLogo(icons.logo);
 
 createMain();
 addHomeSection();
+
 let links = document.querySelectorAll(".navbar li");
 
 document.querySelector(".navbar-logo").onclick = (e) => {

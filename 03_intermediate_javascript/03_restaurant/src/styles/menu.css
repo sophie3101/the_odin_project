@@ -1,4 +1,9 @@
 @font-face {
+  font-family: "eraser";
+  src: url("./EraserRegular.ttf");
+}
+
+@font-face {
   font-family: "amatic";
   src: url("./AmaticSC-Regular.ttf");
 }
@@ -8,8 +13,7 @@
   margin-block: auto;
   color: #f1f5f9;
   width: 70%;
-  height: 90%;
-
+  height: 80%;
   background-image: url("../images/chalkboard.jpg");
   background-repeat: no-repeat;
   background-size: cover;
@@ -21,22 +25,56 @@
   font-size: 5rem;
 }
 
+.menu h1 {
+  font-family: eraser;
+}
 .menu * {
   font-family: amatic;
   font-weight: 600;
 }
 
 .menu-container {
+  margin-block: auto;
   padding: 2rem 2rem;
+  display: grid;
+  grid-template: auto 1fr / repeat(3, 1fr);
+  line-height: 4vh;
+}
+
+.menu-container h1 {
+  font-size: 3rem;
+}
+
+.menu-header {
+  grid-area: 1/1/2/-1;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
 }
 
 .menu-container div {
-  font-size: 1.2rem;
+  font-size: 1.5rem;
 }
 
 .cold-menu {
-  border-left: solid;
-  border-right: solid;
+  border-image: linear-gradient(to bottom, white, grey) 1 100%;
+  border-width: 4px;
+  border-style: solid;
+}
+
+.menu-container > div:not(:first-child) {
+  padding-inline: 2vw;
+}
+
+.menu-container > div:not(:first-child) > div {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+}
+
+.price-span {
+  display: flex;
+  justify-content: space-around;
+}
+
+.item {
+  justify-self: start;
 }

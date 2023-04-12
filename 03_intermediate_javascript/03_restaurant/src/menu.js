@@ -3,25 +3,25 @@ const menu = [
   {
     type: "hot",
     name: "cappucino",
-    price_med: 3,
+    price_med: 3.5,
     price_large: 4.5,
   },
   {
     type: "hot",
     name: "espresso",
-    price_med: 3,
+    price_med: 3.5,
     price_large: 5,
   },
   {
     type: "hot",
     name: "americano",
-    price_med: 3,
+    price_med: 3.5,
     price_large: 4.5,
   },
   {
     type: "hot",
     name: "latte",
-    price_med: 3,
+    price_med: 3.8,
     price_large: 4.5,
   },
   {
@@ -33,7 +33,7 @@ const menu = [
   {
     type: "hot",
     name: "frappe",
-    price_med: 3.2,
+    price_med: 4.2,
     price_large: 5,
   },
   {
@@ -98,12 +98,14 @@ const addToMenu = (menuItems, type, menuDiv) => {
     if (item.type !== "add-on")
       menuDiv.innerHTML += `
     <div>
-      ${item.name} <span class="price-med">${item.price_med} <span> <span class="price-med" >${item.price_large} <span>
+      <p class='item'>${item.name} </p> 
+      <p class="price-span"><span class="price-med">${item.price_med} </span> <span class="price-med" >${item.price_large} </span></p>
     </div>`;
     else
       menuDiv.innerHTML += `
     <div>
-      ${item.name} <span class="price-large">${item.price} <span> 
+      <p class='item'>${item.name}</p>
+      <p class="price-span"> <span class="price-large">${item.price} </span> </p>
     </div>`;
   });
 };
@@ -117,19 +119,32 @@ export const addMenuSection = () => {
   menuContainer.className = "menu-container";
   menuSection.appendChild(menuContainer);
 
+  const menuHeader = document.createElement("div");
+  menuHeader.className = "menu-header";
+  menuHeader.innerHTML = `<div>
+  <h1>HOT</h1>
+</div>
+<div>
+  <h1>COLD</h1>
+</div>
+<div>
+  <h1>ADD ONS</h1>
+</div>`;
+  menuContainer.appendChild(menuHeader);
+
   let hotMenu = document.createElement("div");
   hotMenu.className = "hot-menu";
-  hotMenu.innerHTML = `<h1>Hot</h1>`;
+  // hotMenu.innerHTML = `<div><p></p> <p class="price-span" ><span class="price-type"> MD </span> <span class="price-type"> LG </span></p></div>`;
+  hotMenu.innerHTML = `<div><p></p> <p class="price-span" ><span class="price-type"> MD </span> <span class="price-type"> LG </span></p></div>`;
   addToMenu(menu, "hot", hotMenu);
 
   let coldMenu = document.createElement("div");
   coldMenu.className = "cold-menu";
-  coldMenu.innerHTML = `<h1>Cold</h1>`;
+  coldMenu.innerHTML = `<div><p></p> <p class="price-span" ><span class="price-type"> MD </span> <span class="price-type"> LG </span></p></div>`;
   addToMenu(menu, "cold", coldMenu);
 
   let addOnMenu = document.createElement("div");
   addOnMenu.className = "add-on-menu";
-  addOnMenu.innerHTML = `<h1>Add ons</h1>`;
   addToMenu(menu, "add-on", addOnMenu);
 
   menuContainer.appendChild(hotMenu);
