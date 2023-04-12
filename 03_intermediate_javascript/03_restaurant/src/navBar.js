@@ -4,19 +4,16 @@ export const createHeader = () => {
   header.innerHTML = `<div class="header">
                       <h1>Welcome To Beta CoffeeShop </h1>
                         <nav class="navigation">
-                          <a href="#" class="navbar-logo"></a>
-                          <div class="navbar">
-                            <a href="" class="active">Home</a>
-                            <a href="">Menu</a>
-                            <a href="">Contact</a>
-                          </div>
+                          <a href="#" class="navbar-logo"></a>                    
+                          <ul class="navbar">
+                            <li ><a href="">Home</a></li>
+                            <li><a href="">Menu</a></li>
+                            <li><a href="">Contact</a></li>
+                          </ul>
                         </nav>
                       </div>`;
 
   document.body.appendChild(header);
-
-  let links = document.querySelectorAll(".navbar a");
-  console.log(links);
 };
 
 export const addLogo = (imgUrl) => {

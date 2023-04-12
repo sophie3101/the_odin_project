@@ -1,0 +1,42 @@
+@font-face {
+  font-family: "amatic";
+  src: url("./AmaticSC-Regular.ttf");
+}
+
+.menu {
+  margin-inline: auto;
+  margin-block: auto;
+  color: #f1f5f9;
+  width: 70%;
+  height: 90%;
+
+  background-image: url("../images/chalkboard.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  text-align: center;
+  padding-top: 2rem;
+}
+
+.menu > h1 {
+  font-size: 5rem;
+}
+
+.menu * {
+  font-family: amatic;
+  font-weight: 600;
+}
+
+.menu-container {
+  padding: 2rem 2rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.menu-container div {
+  font-size: 1.2rem;
+}
+
+.cold-menu {
+  border-left: solid;
+  border-right: solid;
+}

@@ -1,9 +1,10 @@
-import { addFavicon, addFooter, updateHead } from "./miscellaneous";
+import { addFavicon, addFooter } from "./miscellaneous";
 
 import { createHeader, addLogo } from "./navBar";
 import { addHomeSection } from "./home";
-import { createContactPage } from "./contact";
+import { addContactSection } from "./contact";
 import "./styles/index.css";
+import { addMenuSection } from "./menu";
 
 const icons = {
   favicon: require("./images/coffee-beans.png"),
@@ -14,15 +15,26 @@ const createMain = () => {
   document.body.appendChild(document.createElement("main"));
 };
 
-updateHead();
 addFavicon(icons.favicon);
 createHeader();
 addLogo(icons.logo);
 
 createMain();
-// home link
-// addHomeSection();
-//contact
+addHomeSection();
+let links = document.querySelectorAll(".navbar li");
 
-createContactPage();
+document.querySelector(".navbar-logo").onclick = (e) => {
+  e.preventDefault();
+  addHomeSection();
+};
+links.forEach(
+  (link) =>
+    (link.onclick = (e) => {
+      e.preventDefault();
+      if (e.target.textContent === "Home") addHomeSection();
+      else if (e.target.textContent === "Contact") addContactSection();
+      else addMenuSection();
+    })
+);
+
 addFooter();

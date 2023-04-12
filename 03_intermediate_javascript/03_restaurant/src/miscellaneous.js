@@ -31,13 +31,3 @@ export const addFooter = () => {
 </p>`;
   document.body.append(footer);
 };
-
-export const updateHead = () => {
-  // let jqueryScript = document.createElement("script");
-  // jqueryScript.src =
-  //   "https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js";
-  // document.head.appendChild(jqueryScript);
-  // let slickScript = document.createElement("script");
-  // slickScript.src = "./src/library/slick.js";
-  // document.head.appendChild(slickScript);
-};

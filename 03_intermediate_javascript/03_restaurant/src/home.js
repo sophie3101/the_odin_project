@@ -30,8 +30,11 @@ const quotes = [
 const addHomeSection = () => {
   const homeSection = document.createElement("section");
   homeSection.classList.add("home");
-
-  document.querySelector("main").appendChild(homeSection);
+  // homeSection.style.display = "none";
+  let main = document.querySelector("main");
+  main.innerHTML = "";
+  main.appendChild(homeSection);
+  // document.querySelector("main").appendChild(homeSection);
   createImageSlider(images);
   createTestimonialSlick();
 };
