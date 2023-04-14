@@ -1,0 +1,41 @@
+@font-face {
+  font-family: mynerve;
+  src: url("./Mynerve-Regular.ttf");
+}
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+:root {
+  --white-clr: #fafaf9;
+}
+/* BODY */
+body,
+html {
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+/* header */
+header {
+  background-color: #0f766e;
+  height: 10vh;
+  width: 100%;
+  padding-inline: 2vw;
+  color: var(--white-clr);
+
+  display: flex;
+  align-items: center;
+  font-size: clamp(1rem, 5vw, 2rem);
+  font-family: mynerve;
+}
+/* FOOTER */
+footer {
+  margin-top: auto;
+  align-self: center;
+}
+
+/* MAIN */

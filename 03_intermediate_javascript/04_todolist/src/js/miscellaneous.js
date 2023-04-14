@@ -8,12 +8,6 @@ export const addFavicon = (src) => {
 };
 
 export const addFooter = () => {
-  let link = document.createElement("link");
-  link.rel = "stylesheet";
-  link.href =
-    "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css";
-  document.head.appendChild(link);
-
   let footer = document.createElement("footer");
   footer.innerHTML = `
   <p>
@@ -23,11 +17,9 @@ export const addFooter = () => {
     </script>
     by Sophie Nguyen
     <a
-      href="https://github.com/sophie3101/the_odin_project/tree/main/03_intermediate_javascript/03_restaurant"
-      ><i style="font-size: 24px; color: rgb(50, 50, 50)" class="fa"
-        >&#xf09b;</i
-      ></a
-    >
+      href="https://github.com/sophie3101/the_odin_project/tree/main/03_intermediate_javascript/04_todolist">
+      <i class="fa-brands fa-github" style="color: #09172f;"></i>
+    </a>
 </p>`;
   document.body.append(footer);
 };
