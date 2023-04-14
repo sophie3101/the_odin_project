@@ -1,6 +1,10 @@
 @font-face {
-  font-family: mynerve;
-  src: url("./Mynerve-Regular.ttf");
+  font-family: dongo;
+  src: url("./Dongle-Light.ttf");
+}
+@font-face {
+  font-family: sniglet;
+  src: url("./Sniglet-Regular.ttf");
 }
 * {
   box-sizing: border-box;
@@ -10,18 +14,28 @@
 
 :root {
   --white-clr: #fafaf9;
+  --light-grey: #f3f4f6;
+  --black: #1e293b;
+  --green: #0f766e;
+  --green-light: #55bbad;
+  --slate: #334155;
 }
+
 /* BODY */
 body,
 html {
-  width: 100vw;
+  min-width: 100vw;
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  background-color: var(--white-clr);
+  font-size: 2vh;
+  color: var(--slate);
+  font-family: sniglet;
 }
 /* header */
 header {
-  background-color: #0f766e;
+  background-color: var(--green);
   height: 10vh;
   width: 100%;
   padding-inline: 2vw;
@@ -30,12 +44,153 @@ header {
   display: flex;
   align-items: center;
   font-size: clamp(1rem, 5vw, 2rem);
-  font-family: mynerve;
 }
 /* FOOTER */
 footer {
-  margin-top: auto;
-  align-self: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  text-align: center;
 }
 
+/* NAV */
+main {
+  min-height: 90vh !important;
+}
+
+nav {
+  width: 18vw;
+  min-height: inherit !important;
+  background-color: var(--light-grey);
+  /* font-size: 2vh; */
+  padding: 2vh 1vw;
+
+  gap: 2vh;
+}
+
+.project-header {
+  font-size: 2.5vh;
+  border-bottom: solid;
+  margin-block: 1vh;
+  justify-content: space-between;
+  padding-inline: 1vw;
+  padding-block: 1vh;
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+a[class^="link"] {
+  margin-block: 1vh;
+  padding: 1vh 1vw;
+  text-decoration: none;
+  color: var(--slate);
+  border-radius: 1vw;
+  background-color: var(--white-clr);
+  border: solid var(--white-clr);
+}
+
+a[class^="link"]:hover {
+  border: solid var(--green);
+}
+
+a[class^="link"]:active,
+.selected {
+  border: solid var(--green);
+  background-color: var(--green) !important;
+  color: var(--white-clr) !important;
+}
+
+input {
+  border: none;
+  height: 4.5vh;
+  padding-inline: 0.5vw;
+  font-size: 2vh;
+  font-family: sniglet;
+}
+
+div.button {
+  justify-content: center;
+}
+
+button {
+  border-radius: 10px;
+  border: none;
+  padding: 1vh 1vw;
+  margin-inline: 1vw;
+  margin-block: 2vh;
+  color: var(--white-clr);
+  font-size: 2vh;
+  font-family: sniglet;
+  font-weight: 500;
+}
+
+#add-btn {
+  background-color: var(--green-light);
+}
+#add-btn:hover,
+#add-btn:active {
+  background-color: var(--green);
+}
+
+#cancel-btn {
+  background-color: #fb7185;
+}
 /* MAIN */
+.flex-row {
+  width: 100%;
+  display: flex;
+}
+
+.hide {
+  display: none;
+}
+
+.task-container {
+  width: 100% !important;
+  padding-inline: 3vw;
+  padding-block: 1vh;
+}
+
+.task-header {
+  text-align: center;
+  font-size: 3vh;
+  margin-block: 1vh;
+}
+
+.task-title {
+  justify-content: space-between;
+  padding-block: 1vh;
+  padding-inline: 1vw;
+  margin-block: 1vh;
+  border-bottom: solid #6b7280;
+}
+
+.task-card {
+  font-family: dongo;
+  font-size: 3.5vh;
+  padding-inline: 1vw;
+  align-items: baseline;
+}
+
+.task-detail {
+  padding-left: 1vw;
+  line-height: 2vh;
+  flex-grow: 1;
+}
+
+.due-date {
+  font-size: 2vh;
+}
+
+.project-name {
+  font-size: 2.5vh;
+  font-weight: 600;
+}
+
+.icon-container {
+  align-self: flex-end;
+}

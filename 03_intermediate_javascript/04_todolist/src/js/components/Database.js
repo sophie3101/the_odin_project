@@ -1,4 +1,9 @@
-const Database = () => {
+import Project from "./Project";
+import Task from "./Task";
+
+const Database = (() => {
+  let currentProjects = [];
+  let currentTasks = [];
   const getAllTasks = () => JSON.parse(localStorage.getItem("tasks"));
 
   const getAllProjects = () => JSON.parse(localStorage.getItem("projects"));
@@ -9,34 +14,28 @@ const Database = () => {
 
   const printAllTasks = () => console.log(getAllTasks());
 
+  const printAllProjects = () => console.log(getAllProjects());
+
   const setProjects = (projects) =>
     localStorage.setItem("projects", JSON.stringify(projects));
 
   const setTasks = (tasks) =>
     localStorage.setItem("tasks", JSON.stringify(tasks));
 
-  const addTasks = (tasks) => {
-    let currentTasks = getAllTasks() ?? [];
-    let currentProjects = getAllProjects() ?? [];
-    tasks.forEach((task) => {
-      if (currentProjects.indexOf(task.projectName) === -1) {
-        currentProjects.push(task.projectName);
-      }
-      currentTasks.push(task);
-    });
-
-    setProjects(currentProjects);
-    setTasks(currentTasks);
+  const addProject = (projectName) => {
+    const oldProjectNum = currentProjects.length;
+    if (
+      currentProjects.filter((project) => project.projectName == projectName)
+        .length === 0
+    ) {
+      currentProjects.push(Project(projectName));
+    }
+    if (oldProjectNum < currentProjects.length) setProjects(currentProjects);
   };
 
-  const addTask = (task) => {
-    let currentTasks = getAllTasks() ?? [];
-    let currentProjects = getAllProjects() ?? [];
-    if (currentProjects.indexOf(task.projectName) === -1) {
-      currentProjects.push(task.projectName);
-    }
-    currentTasks.push(task);
-    setProjects(currentProjects);
+  const addTask = (projectName, description, priority, dueDate) => {
+    addProject(projectName);
+    currentTasks.push(Task(projectName, description, priority, dueDate));
     setTasks(currentTasks);
   };
 
@@ -48,9 +47,10 @@ const Database = () => {
     setTasks,
     setProjects,
     printAllTasks,
+    printAllProjects,
     addTask,
-    addTasks,
+    addProject,
   };
-};
+})();
 
 export default Database;

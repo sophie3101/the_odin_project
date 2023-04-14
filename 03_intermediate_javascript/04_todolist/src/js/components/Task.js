@@ -3,6 +3,7 @@ const Task = (projectName, description, priority, dueDate) => {
   const id = uuidv4();
 
   const getId = () => id;
+
   return {
     id,
     projectName,
