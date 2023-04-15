@@ -1,19 +1,17 @@
-const TaskDisplay = (title, tasks = [], canAdd = fasle) => {
-  const div = document.createElement("section");
-  div.classList.add("task-container", "flex-col");
+const TaskSection = (title, tasks, canAdd = true) => {
+  const taskSection = document.createElement("section");
+  taskSection.classList.add("task-container", "flex-col");
 
   const taskHeader = TaskHeader(title);
-  div.appendChild(taskHeader);
+  taskSection.appendChild(taskHeader);
 
   const titleDiv = TaskTitle(canAdd, tasks.length);
-  div.appendChild(titleDiv);
+  taskSection.appendChild(titleDiv);
 
   const taskList = TaskListDiv(tasks);
-  div.appendChild(taskList);
+  taskSection.appendChild(taskList);
 
-  console.log("TaskDisplay tasks:  ", tasks);
-
-  return div;
+  return taskSection;
 };
 
 const TaskHeader = (title) => {
@@ -51,6 +49,7 @@ const TaskListDiv = (tasks) => {
   });
   return taskList;
 };
+
 const TaskDiv = (task) => {
   const taskDiv = document.createElement("div");
   taskDiv.classList.add("task-card", "flex-row");
@@ -67,4 +66,4 @@ const TaskDiv = (task) => {
   <div class="task-info icon-container"> <i class="fa-solid fa-ellipsis fa-xs"></i><div>`;
   return taskDiv;
 };
-export default TaskDisplay;
+export default TaskSection;

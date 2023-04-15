@@ -1,10 +1,16 @@
 import Project from "./Project";
 import Task from "./Task";
+const moment = require("moment");
 
 const Database = (() => {
   const getAllTasks = () => JSON.parse(localStorage.getItem("tasks"));
 
   const getAllProjects = () => JSON.parse(localStorage.getItem("projects"));
+
+  // const getTasksByCategories = () => {
+  //   const tasks = getAllTasks();
+  //   TaskListCategory(tasks);
+  // };
 
   const isDatabaseEmpty = () => localStorage.getItem("tasks") === null;
 
@@ -44,13 +50,43 @@ const Database = (() => {
 
   const addDummyData = () => {
     console.log("adding dummy data");
-    addTask("reminder", "go to sleep at 10", "high", "2023-04-13");
+    addTask("reminder", "go to sleep at 10", "high", "2023-04-15");
     addTask("reminder", "wake up at 1", "medium", "2023-05-21");
     addTask("reminder", "do homework", "high", "2023-05-21");
     addTask("reminder2", "go to sleep at 9", "low", "2023-12-10");
-    addTask("reminder", "go to sleep at 8", "high", "2022-02-09");
+    addTask("reminder", "complete a task", "high", "2022-02-09");
     addTask("reminder", "go to sleep at 0", "medium", "2023-08-11");
     addTask("reminder", "go to sleep at 1", "medium", "2023-04-20");
+    addTask(
+      "reminder",
+      "set up reminder",
+      "low",
+      moment().format("YYYY-MM-DD")
+    );
+  };
+
+  const getTasksByDateCategory = (dateCategory) =>
+    getAllTasks().filter((task) => task.dateCategory === dateCategory);
+
+  const getImportantTasks = () =>
+    getAllTasks().filter((task) => task.priority === "high");
+
+  const getCompletedTasks = () => getAllTasks().filter((task) => task.status);
+  const getTodayTasks = () => {
+    const tasks = getAllTasks();
+    return tasks.filter((task) => {
+      const dueDate = moment(task.dueDate, "YYYY-MM-DD");
+      return dueDate.isSame(moment(), "day");
+    });
+  };
+
+  const getUpcomingTasks = () => {
+    const tasks = getAllTasks();
+
+    return tasks.filter((task) => {
+      const dueDate = moment(task.dueDate, "YYYY-MM-DD");
+      return dueDate.isAfter(moment(), "day");
+    });
   };
 
   return {
@@ -65,6 +101,9 @@ const Database = (() => {
     addTask,
     addProject,
     addDummyData,
+    getTasksByDateCategory,
+    getImportantTasks,
+    getCompletedTasks,
   };
 })();
 

@@ -17,22 +17,12 @@ const DefaultMenuSection = () => {
   defaultMenuSection.innerHTML = `
     <a href="" class="link-default-menu selected" data-title="all"><i class="fa-solid fa-house-user fa-lg"></i><span> All</span></a>
     <a href="" class="link-default-menu" data-title="today"><i class="fa-regular fa-calendar-check fa-lg"></i><span> Today</span></a>
-    <a href="" class="link-default-menu" data-title="scheduled"><i class="fa-solid fa-calendar-days fa-lg"></i><span> Upcoming</span></a>
+    <a href="" class="link-default-menu" data-title="upcoming"><i class="fa-solid fa-calendar-days fa-lg"></i><span> Upcoming</span></a>
     <a href="" class="link-default-menu" data-title="flagged"><i class="fa-regular fa-star"></i><span> Flagged</span></a>
     <a href="" class="link-default-menu" data-title="completed"><i class="fa-solid fa-check-double fa-lg"></i><span> Completed</span></a>
   `;
 
   return defaultMenuSection;
-};
-
-const Link = (classList, dataset, datasetName, name) => {
-  const link = document.createElement("a");
-  link.setAttribute("href", "#");
-  classList.forEach((c) => link.classList.add(c));
-  link.setAttribute(dataset, datasetName);
-  link.innerHTML = name;
-  console.log(link.innerHTML, link);
-  return link;
 };
 
 const DefaultProjectMenuSection = (projects) => {
@@ -46,8 +36,8 @@ const DefaultProjectMenuSection = (projects) => {
     <div class="add-project icon-container" ><i class="fa-solid fa-plus fa-lg"></i> </div>
     </div>`;
 
-  // const projectForm = ProjectForm();
-  // projectMenuSection.appendChild(projectForm);
+  const projectForm = ProjectForm();
+  projectMenuSection.appendChild(projectForm);
 
   projects.forEach((project) => {
     projectMenuSection.innerHTML += getProjectLink(project.projectName);
@@ -64,7 +54,7 @@ export const ProjectForm = () => {
   const form = document.createElement("form");
   form.method = "post";
   // form.action = "/";
-  form.classList.add("form-project", "flex-col");
+  form.classList.add("form-project", "flex-col", "hide");
   form.innerHTML = ` 
   <input type="text" name="project" id="" placeholder="Project Name" >
   <div class="flex-row button">

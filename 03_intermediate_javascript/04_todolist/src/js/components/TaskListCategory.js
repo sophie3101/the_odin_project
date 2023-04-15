@@ -1,6 +1,6 @@
 const moment = require("moment");
 
-const TaskListCategory = (() => {
+const TaskListCategory = (taskList) => {
   const getTaskMapByProjectName = (taskList) => {
     const projects = taskList.reduce((group, task) => {
       const { projectName } = task;
@@ -44,11 +44,12 @@ const TaskListCategory = (() => {
     return projects;
   };
 
-  return {
-    getTaskMapByDate,
-    getTaskMapByProjectName,
-    getTaskMapByPriority,
-  };
-})();
+  console.log(getTaskMapByDate(taskList));
+  // return {
+  //   getTaskMapByDate,
+  //   getTaskMapByProjectName,
+  //   getTaskMapByPriority,
+  // };
+};
 
 export default TaskListCategory;

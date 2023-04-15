@@ -1,10 +1,11 @@
 import LeftNav from "./LeftNav";
-// import TaskDisplay from "./TaskDisplay";
-const MainSection = (projects) => {
+import TaskSection from "./TaskSection";
+const MainSection = (projects, tasks) => {
   const main = document.createElement("main");
   main.classList.add("flex-row");
   main.appendChild(LeftNav(projects));
-  // main.appendChild(TaskDisplay());
+  main.appendChild(TaskSection("all", tasks));
+
   return main;
 };
 
