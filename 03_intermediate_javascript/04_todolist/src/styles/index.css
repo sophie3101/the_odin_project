@@ -83,6 +83,9 @@ nav {
   flex-direction: column;
 }
 
+.add-project {
+  z-index: 7;
+}
 a[class^="link"] {
   margin-block: 1vh;
   padding: 1vh 1vw;
@@ -90,11 +93,11 @@ a[class^="link"] {
   color: var(--slate);
   border-radius: 1vw;
   background-color: var(--white-clr);
-  border: solid var(--white-clr);
+  border: 2px solid var(--white-clr);
 }
 
 a[class^="link"]:hover {
-  border: solid var(--green);
+  border: 2px solid var(--green);
 }
 
 a[class^="link"]:active,
@@ -139,6 +142,13 @@ button {
 #cancel-btn {
   background-color: #fb7185;
 }
+
+span {
+  margin-left: 1vw;
+}
+.link-project {
+  justify-content: space-between;
+}
 /* MAIN */
 .flex-row {
   width: 100%;
@@ -147,6 +157,7 @@ button {
 
 .hide {
   display: none;
+  /* visibility: none; */
 }
 
 .task-container {
