@@ -3,16 +3,13 @@ import Task from "./Task";
 const moment = require("moment");
 
 const Database = (() => {
-  const getAllTasks = () => JSON.parse(localStorage.getItem("tasks"));
+  const renderDatabase = () => {};
+  const getAllTasks = () => JSON.parse(localStorage.getItem("tasks")) ?? [];
 
-  const getAllProjects = () => JSON.parse(localStorage.getItem("projects"));
+  const getAllProjects = () =>
+    JSON.parse(localStorage.getItem("projects")) ?? [];
 
-  // const getTasksByCategories = () => {
-  //   const tasks = getAllTasks();
-  //   TaskListCategory(tasks);
-  // };
-
-  const isDatabaseEmpty = () => localStorage.getItem("tasks") === null;
+  const isDatabaseEmpty = () => getAllTasks().length === 0;
 
   const clearDatabase = () => localStorage.clear();
 
@@ -27,18 +24,45 @@ const Database = (() => {
   const setTasks = (tasks) =>
     localStorage.setItem("tasks", JSON.stringify(tasks));
 
-  const addProject = (projectName) => {
-    let currentProjects = getAllProjects() ?? [];
-    const oldProjectNum = currentProjects.length;
+  const deleteProject = (projectName) => {
+    let currentProjects = getAllProjects();
+    console.log(currentProjects);
+    currentProjects = currentProjects.filter(
+      (project) => project.projectName !== projectName
+    );
 
-    if (
-      currentProjects.filter((project) => project.projectName == projectName)
-        .length === 0
-    ) {
+    let currentTasks = getAllTasks() ?? [];
+    currentTasks = currentTasks.filter(
+      (task) => task.projectName !== projectName
+    );
+
+    setTasks(currentTasks);
+    setProjects(currentProjects);
+    printAllProjects();
+    printAllTasks();
+  };
+
+  const addProject = (projectName) => {
+    let currentProjects = [];
+    let hasNewProject = false;
+
+    if (getAllProjects() === null) {
       currentProjects.push(Project(projectName));
+      hasNewProject = true;
+      setProjects(currentProjects);
+    } else {
+      currentProjects = getAllProjects();
+      if (
+        currentProjects.filter((project) => project.projectName === projectName)
+          .length === 0
+      ) {
+        currentProjects.push(Project(projectName));
+        hasNewProject = true;
+        setProjects(currentProjects);
+      }
     }
 
-    if (oldProjectNum < currentProjects.length) setProjects(currentProjects);
+    return hasNewProject;
   };
 
   const addTask = (projectName, description, priority, dueDate) => {
@@ -56,7 +80,7 @@ const Database = (() => {
     addTask("reminder2", "go to sleep at 9", "low", "2023-12-10");
     addTask("reminder", "complete a task", "high", "2022-02-09");
     addTask("reminder", "go to sleep at 0", "medium", "2023-08-11");
-    addTask("reminder", "go to sleep at 1", "medium", "2023-04-20");
+    addTask("reminder2", "go to sleep at 1", "medium", "2023-04-20");
     addTask(
       "reminder",
       "set up reminder",
@@ -72,22 +96,9 @@ const Database = (() => {
     getAllTasks().filter((task) => task.priority === "high");
 
   const getCompletedTasks = () => getAllTasks().filter((task) => task.status);
-  const getTodayTasks = () => {
-    const tasks = getAllTasks();
-    return tasks.filter((task) => {
-      const dueDate = moment(task.dueDate, "YYYY-MM-DD");
-      return dueDate.isSame(moment(), "day");
-    });
-  };
 
-  const getUpcomingTasks = () => {
-    const tasks = getAllTasks();
-
-    return tasks.filter((task) => {
-      const dueDate = moment(task.dueDate, "YYYY-MM-DD");
-      return dueDate.isAfter(moment(), "day");
-    });
-  };
+  const getTasksByProjectName = (targetProjectName) =>
+    getAllTasks().filter((task) => task.projectName === targetProjectName);
 
   return {
     isDatabaseEmpty,
@@ -104,6 +115,8 @@ const Database = (() => {
     getTasksByDateCategory,
     getImportantTasks,
     getCompletedTasks,
+    getTasksByProjectName,
+    deleteProject,
   };
 })();
 

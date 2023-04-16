@@ -6,6 +6,7 @@
   font-family: sniglet;
   src: url("./Sniglet-Regular.ttf");
 }
+
 * {
   box-sizing: border-box;
   padding: 0;
@@ -19,6 +20,11 @@
   --green: #0f766e;
   --green-light: #55bbad;
   --slate: #334155;
+  --red: #e11d48;
+  --medium-grey: #9ca3af;
+  --high-priority-cl: #dc2626;
+  --medium-priority-clr: #059669;
+  --low-priority-clr: #facc15;
 }
 
 /* BODY */
@@ -33,6 +39,7 @@ html {
   color: var(--slate);
   font-family: sniglet;
 }
+
 /* header */
 header {
   background-color: var(--green);
@@ -45,6 +52,7 @@ header {
   align-items: center;
   font-size: clamp(1rem, 5vw, 2rem);
 }
+
 /* FOOTER */
 footer {
   position: absolute;
@@ -63,7 +71,6 @@ nav {
   width: 18vw;
   min-height: inherit !important;
   background-color: var(--light-grey);
-  /* font-size: 2vh; */
   padding: 2vh 1vw;
 
   gap: 2vh;
@@ -83,9 +90,6 @@ nav {
   flex-direction: column;
 }
 
-.add-project {
-  z-index: 7;
-}
 a[class^="link"] {
   margin-block: 1vh;
   padding: 1vh 1vw;
@@ -119,22 +123,11 @@ div.button {
   justify-content: center;
 }
 
-button.add-project {
-  background-color: var(--slate);
-  border-radius: 50%;
-  border: none; /* Remove borders */
-  color: white; /* White text */
-  padding: 12px 16px; /* Some padding */
-  font-size: 16px; /* Set a font size */
-  cursor: pointer;
-}
-
-.add-project svg {
+svg {
   pointer-events: none;
 }
 
-#add-btn,
-#cancel-btn {
+button {
   border-radius: 10px;
   border: none;
   padding: 1vh 1vw;
@@ -146,25 +139,36 @@ button.add-project {
   font-weight: 500;
 }
 
-#add-btn {
+.add-btn {
   background-color: var(--green-light);
 }
 
-#add-btn:hover,
-#add-btn:active {
+.add-btn:hover,
+.add-btn:active {
   background-color: var(--green);
 }
 
-#cancel-btn {
+.cancel-btn {
   background-color: #fb7185;
 }
 
 span {
   margin-left: 1vw;
 }
+
 .link-project {
   justify-content: space-between;
 }
+
+.delete-project:hover {
+  width: 1.3vw;
+  aspect-ratio: 1/1;
+  background-color: var(--green);
+  color: var(--white-clr);
+  border-radius: 50%;
+  text-align: center;
+}
+
 /* MAIN */
 .flex-row {
   width: 100%;
@@ -173,7 +177,6 @@ span {
 
 .hide {
   display: none;
-  /* visibility: none; */
 }
 
 .task-container {
@@ -218,6 +221,45 @@ span {
   font-weight: 600;
 }
 
-.icon-container {
-  align-self: flex-end;
+.high-priority {
+  color: var(--high-priority-cl);
+}
+
+.low-priority {
+  color: var(--low-priority-clr);
+}
+
+.medium-priority {
+  color: var(--medium-priority-clr);
+}
+/* color for date category */
+.overdue {
+  color: var(--red);
+}
+
+p.due-date:not(.overdue) {
+  visibility: hidden; /* dont show date of tasks in future or tasks of today*/
+}
+
+/* ADD TASK FORM */
+.flex-row-center {
+  display: flex;
+  justify-content: center;
+}
+
+input[type="text"] {
+  width: 20vw;
+}
+
+.task-form select {
+  padding: 0.5vh 0.5vw;
+  border: none;
+  background-color: inherit;
+  border-bottom: 2px solid var(--slate);
+  margin-inline: 1vw;
+}
+
+select,
+option {
+  font-family: sniglet;
 }

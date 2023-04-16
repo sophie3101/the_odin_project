@@ -1,3 +1,4 @@
+import { iconMap } from "./LeftNav";
 const TaskSection = (title, tasks, canAdd = true) => {
   const taskSection = document.createElement("section");
   taskSection.classList.add("task-container", "flex-col");
@@ -18,13 +19,15 @@ const TaskHeader = (title) => {
   const header = document.createElement("div");
   header.classList.add("task-header");
   if (
-    ["all", "today", "upcoming", "flagged", "completed"].includes(
+    ["all", "today", "upcoming", "important", "completed"].includes(
       title.toLowerCase()
     )
   ) {
     header.classList.add(title);
   } else header.classList.add("project");
-  header.innerHTML = `<p>${title.toUpperCase()}</p>`;
+  header.innerHTML = `<p><i class="fa-solid ${
+    iconMap[title]
+  }"></i><span>${title.toUpperCase()}</span></p>`;
 
   return header;
 };
@@ -56,12 +59,13 @@ const TaskDiv = (task) => {
   taskDiv.id = task.id;
   // taskDiv.setAttribute("data-priority", task.priority);
   taskDiv.innerHTML = `
-  <div class="task-status icon-container" ><i class="fa-regular fa-circle fa-sm"></i></i></div>
+  <div class="task-status icon-container" ><i class="fa-regular fa-circle fa-sm ${task.priority}-priority"></i></i></div>
   <div class="task-detail flex-col">
-    <p>${task.description}</p>
-    <p class="project-name">${task.projectName} </p>
-    <p class="due-date hide">${task.dueDate}</p>
-    
+    <p>${task.description} </p>
+    <div class="flex-row">
+      <p class="project-name">${task.projectName} &nbsp</p>
+      <p class="due-date ${task.dateCategory}"> ${task.dueDate}</p>
+    </div>
   </div>
   <div class="task-info icon-container"> <i class="fa-solid fa-ellipsis fa-xs"></i><div>`;
   return taskDiv;

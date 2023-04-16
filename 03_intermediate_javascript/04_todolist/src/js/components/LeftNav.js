@@ -1,3 +1,24 @@
+export let iconMap = {
+  all: "fa-house-user",
+  today: "fa-calendar-check",
+  upcoming: "fa-calendar-days",
+  important: "fa-star",
+  completed: "fa-check-double",
+};
+
+const randomIcons = [
+  "fa-bomb",
+  "fa-gift",
+  "fa-earth-americas",
+  "fa-palette",
+  "fa-tree",
+  "fa-anchor",
+  "fa-pencil",
+  "fa-rocket",
+  "fa-paperclip",
+  "fa-hand",
+];
+
 const LeftNav = (projects) => {
   const nav = document.createElement("nav");
   nav.classList.add("flex-col");
@@ -15,11 +36,11 @@ const DefaultMenuSection = () => {
   defaultMenuSection.classList.add("nav-default-menu", "flex-col");
 
   defaultMenuSection.innerHTML = `
-    <a href="" class="link-default-menu selected" data-title="all"><i class="fa-solid fa-house-user fa-lg"></i><span> All</span></a>
-    <a href="" class="link-default-menu" data-title="today"><i class="fa-regular fa-calendar-check fa-lg"></i><span> Today</span></a>
-    <a href="" class="link-default-menu" data-title="upcoming"><i class="fa-solid fa-calendar-days fa-lg"></i><span> Upcoming</span></a>
-    <a href="" class="link-default-menu" data-title="flagged"><i class="fa-regular fa-star"></i><span> Flagged</span></a>
-    <a href="" class="link-default-menu" data-title="completed"><i class="fa-solid fa-check-double fa-lg"></i><span> Completed</span></a>
+    <a href="" class="link-default-menu selected" data-title="all"><i class="fa-solid ${iconMap["all"]} fa-lg"></i><span> All</span></a>
+    <a href="" class="link-default-menu" data-title="today"><i class="fa-regular ${iconMap["today"]} fa-lg"></i><span> Today</span></a>
+    <a href="" class="link-default-menu" data-title="upcoming"><i class="fa-solid ${iconMap["upcoming"]} fa-lg"></i><span> Upcoming</span></a>
+    <a href="" class="link-default-menu" data-title="important"><i class="fa-regular ${iconMap["important"]} fa-lg"></i><span> Important</span></a>
+    <a href="" class="link-default-menu" data-title="completed"><i class="fa-solid ${iconMap["completed"]} fa-lg"></i><span> Completed</span></a>
   `;
 
   return defaultMenuSection;
@@ -36,30 +57,56 @@ const DefaultProjectMenuSection = (projects) => {
     <div class="add-project icon-container" ><i class="fa-solid fa-plus fa-lg"></i> </div>
     </div>`;
 
-  const projectForm = ProjectForm();
-  projectMenuSection.appendChild(projectForm);
+  // const projectForm = ProjectForm();
+  // projectMenuSection.appendChild(projectForm);
 
   projects.forEach((project) => {
-    projectMenuSection.innerHTML += getProjectLink(project.projectName);
+    // projectMenuSection.innerHTML += getProjectLink(project.projectName);
+    projectMenuSection.appendChild(ProjectLink(project.projectName));
   });
 
   return projectMenuSection;
 };
 
-export const getProjectLink = (projectName) => {
-  return `<a href="" class="link-project flex-row" data-title="${projectName.toLowerCase()}"><p>${projectName}</p> <div><i class="fa-solid fa-xmark"></i> </div></a>`;
+export const getProjectLink_deprecated = (projectName) => {
+  const idx = Math.floor(Math.random() * randomIcons.length);
+  const icon = randomIcons[idx];
+  randomIcons.splice(idx, 1);
+  iconMap[projectName] = icon;
+  return `<a href="" class="link-project flex-row" data-title="${projectName}">
+            <div> 
+              <i class="fa-solid ${icon} fa-lg"></i>
+              <span>${projectName}</span> 
+            </div>
+            
+            <div class="delete-project" data-project=${projectName}><i class="fa-solid fa-xmark"></i> </div>
+          </a>`;
+};
+
+export const ProjectLink = (projectName) => {
+  const icon = randomIcons[Math.floor(Math.random() * randomIcons.length)];
+  //update iconMap
+  iconMap[projectName] = icon;
+
+  const link = document.createElement("a");
+  link.classList.add("link-project", "flex-row");
+  link.setAttribute("data-title", projectName);
+  link.innerHTML = ` <div><i class="fa-solid ${icon} fa-lg"></i>
+  <span>${projectName}</span> </div>
+  <div class="delete-project" data-project=${projectName}><i class="fa-solid fa-xmark"></i> </div>`;
+  return link;
 };
 
 export const ProjectForm = () => {
   const form = document.createElement("form");
   form.method = "post";
   // form.action = "/";
-  form.classList.add("form-project", "flex-col", "hide");
+  form.classList.add("form-project", "flex-col");
   form.innerHTML = ` 
   <input type="text" name="project" id="" placeholder="Project Name" >
   <div class="flex-row button">
-    <button id="add-btn">Add</button>
-    <button id="cancel-btn" type="button">Cancel</button>
+    <button class="add-btn" id="add-project-btn" type="submit" >Add</button>
+    <button class="cancel-btn" id="cancel-project-btn" type="button">Cancel</button>
   </div>`;
 
   return form;
