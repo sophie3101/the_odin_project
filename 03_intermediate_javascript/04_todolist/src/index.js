@@ -1,3 +1,4 @@
 import App from "./js/App";
 
-App();
+App().renderHomePage();
+App().renderListeners();

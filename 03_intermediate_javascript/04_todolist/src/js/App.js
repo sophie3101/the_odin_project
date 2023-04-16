@@ -1,9 +1,9 @@
 import Header from "./components/Header";
 import Favicon from "./components/Favicon";
 import Footer from "./components/Footer";
-import MainSection, { TaskForm } from "./components/MainSection";
+import MainSection from "./components/MainSection";
 import Database from "./components/Database";
-import TaskDisplay from "./components/TaskSection";
+import TasksDisplay, { TaskDiv, TaskForm } from "./components/TaskSection";
 import { ProjectForm, ProjectLink } from "./components/LeftNav";
 
 import "../styles/index.css";
@@ -14,8 +14,7 @@ import "@fortawesome/fontawesome-free/js/regular";
 
 const App = () => {
   const renderHomePage = () => {
-    initializeDatabase();
-    Database.printAllTasks();
+    Database.initializeDatabase();
     document.head.appendChild(
       Favicon(require("../images/checklist_favicon.png"))
     );
@@ -34,7 +33,10 @@ const App = () => {
     const deleteProjectBtns = document.querySelectorAll(".delete-project");
     const addTaskBtn = document.querySelector(".add-task");
     const taskListSection = document.querySelector(".task-list");
-
+    const taskInfos = document.querySelectorAll(".task-info"); //the three dots;
+    const projectTitles = Array.from(
+      document.querySelectorAll(".nav-project-menu > a")
+    ).map((link) => link.dataset.title);
     // when user select any div in navigation bar
     menuLinks.forEach(
       (link) =>
@@ -45,7 +47,9 @@ const App = () => {
           selectedLink.classList.remove("selected");
           e.target.classList.add("selected");
           //to do SHOW TASKS
+          // console.log("showing tasks in ", e.target.dataset.title);
           showTasks(e.target.dataset.title);
+          renderListeners();
         })
     );
 
@@ -53,7 +57,7 @@ const App = () => {
     addProjectIcon.onclick = (e) => {
       e.preventDefault();
       console.log("click add project");
-      // projectForm.classList.toggle("hide");
+      if (document.querySelector(".form-project") !== null) return;
       const projectForm = ProjectForm();
       projectMenuNav.insertAdjacentElement("beforeend", projectForm);
 
@@ -106,59 +110,132 @@ const App = () => {
     addTaskBtn.onclick = (e) => {
       e.preventDefault();
       console.log("adding task");
-      const taskForm = TaskForm(Database.getAllProjects());
+      if (document.querySelector(".task-form-container") !== null) return;
+      // get projects for Projects Nav
+
+      const taskForm = TaskForm(projectTitles);
       taskListSection.insertAdjacentElement("afterbegin", taskForm);
-
-      document.getElementById("cancel-task-btn").onclick = (e) => {
-        console.log("click cancle adding task ", e.target);
-        taskForm.remove();
-      };
-
-      document.getElementById("add-task-btn").onclick = (e) => {
-        console.log("submitting new tasks");
-        const taskDescription = document.getElementById(
-          "task-description-input"
-        ).value;
-        const date = document.getElementById("task-date").value;
-        const priority = document.querySelector(".priority-dropdown").value;
-        const projectName = document.querySelector(".project-dropdown").value;
-        console.log(taskDescription, date, priority, projectName);
-
-        taskForm.remove();
-        renderListeners();
-      };
+      handleTaskEvents(taskForm, true);
+      // renderListeners();
     };
+
+    // when user want to view task in details or delete
+    taskInfos.forEach(
+      (task) =>
+        (task.onclick = (e) => {
+          e.preventDefault();
+          if (document.querySelector(".task-form-container") !== null) return;
+          const taskDiv = e.target.parentNode.parentNode;
+          console.log(e.target.parentNode.parentNode);
+          const taskID = taskDiv.id;
+          const selectedTask = Database.getTask(taskID);
+          const taskForm = TaskForm(projectTitles, selectedTask);
+
+          taskDiv.classList.toggle("hide");
+          taskDiv.insertAdjacentElement("afterend", taskForm);
+          handleTaskEvents(taskForm, false, taskDiv);
+          // // when user click cancel button
+          // document.getElementById("cancel-task-btn").onclick = (e) => {
+          //   console.log("click cancle adding task ", e.target);
+          //   taskForm.remove();
+          //   taskDiv.classList.toggle("hide");
+          // };
+
+          Database.printAllTasks();
+          renderListeners();
+        })
+    );
   };
 
-  renderHomePage();
-  renderListeners();
-};
+  const handleTaskEvents = (taskForm, addTask = true, taskDiv) => {
+    //when user cancel
+    document.getElementById("cancel-task-btn").onclick = (e) => {
+      taskForm.remove();
+      if (taskDiv !== undefined) taskDiv.classList.toggle("hide");
+    };
+    // when user submit new task or edit task
+    document.getElementById("add-task-btn").onclick = (e) => {
+      console.log("submitting new tasks");
+      const description = document.getElementById(
+        "task-description-input"
+      ).value;
+      const dueDate = document.getElementById("task-date").value;
+      const priority = document.querySelector(".priority-dropdown").value;
+      const projectName = document.querySelector(".project-dropdown").value;
+      console.log("user input ", description, dueDate, priority, projectName);
 
-const initializeDatabase = () => {
-  // console.log("is database empty? ", Database.isDatabaseEmpty());
-  Database.clearDatabase();
-  if (Database.isDatabaseEmpty()) Database.addDummyData();
-  // Database.printAllProjects();
-  // Database.printAllTasks();
+      if (addTask) {
+        // if user add task
+        const newTask = Database.addTask(
+          projectName,
+          description,
+          priority,
+          dueDate
+        );
+        Database.printAllTasks();
+        const newTaskDiv = TaskDiv(newTask);
+        document.querySelector(".task-list").appendChild(newTaskDiv);
+      } else {
+        //if user edit task
+        const taskID = taskDiv.id;
+        Database.modifyTask(
+          projectName,
+          description,
+          priority,
+          dueDate,
+          taskID
+        );
+        const edittedTaskDiv = TaskDiv({
+          id: taskID,
+          projectName,
+          description,
+          priority,
+          dueDate,
+        });
+        taskDiv.replaceWith(edittedTaskDiv);
+        Database.printAllTasks();
+      }
+
+      //remove TASK FORM
+      taskForm.remove();
+    };
+
+    // when user click delete button
+    if (!addTask) {
+      document.getElementById("del-task-btn").onclick = (e) => {
+        console.log("click delete ", e.target);
+        taskForm.remove();
+        Database.deleteTask(taskDiv.id);
+        taskDiv.remove();
+      };
+    }
+
+    renderListeners();
+  };
+
+  return {
+    renderHomePage,
+    renderListeners,
+  };
 };
 
 const showTasks = (title) => {
-  const tasks = Database.getAllTasks();
   let taskSection;
 
-  if (title === "all") taskSection = TaskDisplay(title, tasks);
+  if (title === "all")
+    taskSection = TasksDisplay(title, Database.getAllTasks());
   else if (title === "today" || title == "upcoming") {
-    taskSection = TaskDisplay(
+    taskSection = TasksDisplay(
       title,
       Database.getTasksByDateCategory(title),
       false
     );
   } else if (title == "important") {
-    taskSection = TaskDisplay(title, Database.getImportantTasks(), false);
+    taskSection = TasksDisplay(title, Database.getImportantTasks(), false);
   } else if (title === "completed") {
-    taskSection = TaskDisplay(title, Database.getCompletedTasks(), false);
+    taskSection = TasksDisplay(title, Database.getCompletedTasks(), false);
   } else {
-    taskSection = TaskDisplay(
+    taskSection = TasksDisplay(
       title,
       Database.getTasksByProjectName(title),
       true

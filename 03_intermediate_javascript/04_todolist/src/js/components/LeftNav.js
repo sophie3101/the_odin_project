@@ -47,21 +47,14 @@ const DefaultMenuSection = () => {
 };
 
 const DefaultProjectMenuSection = (projects) => {
-  // create an empty projects section
   const projectMenuSection = document.createElement("section");
   projectMenuSection.classList.add("nav-project-menu", "flex-col");
-  //project Header <a href="" class="add-project" ><i class="fa-solid fa-plus fa-lg"></i> </a>
   projectMenuSection.innerHTML = `<div class="flex-row project-header">
-    <p>Projects <p>
-   
-    <div class="add-project icon-container" ><i class="fa-solid fa-plus fa-lg"></i> </div>
+      <p>Projects <p>
+      <a class="add-project icon-container" ><i class="fa-solid fa-plus fa-lg"></i> </a>
     </div>`;
 
-  // const projectForm = ProjectForm();
-  // projectMenuSection.appendChild(projectForm);
-
   projects.forEach((project) => {
-    // projectMenuSection.innerHTML += getProjectLink(project.projectName);
     projectMenuSection.appendChild(ProjectLink(project.projectName));
   });
 

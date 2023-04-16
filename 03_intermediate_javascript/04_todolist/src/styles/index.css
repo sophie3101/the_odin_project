@@ -20,6 +20,7 @@
   --green: #0f766e;
   --green-light: #55bbad;
   --slate: #334155;
+  --light-slate: #a3a3a3;
   --red: #e11d48;
   --medium-grey: #9ca3af;
   --high-priority-cl: #dc2626;
@@ -63,6 +64,15 @@ footer {
 }
 
 /* NAV */
+a:hover {
+  cursor: pointer;
+}
+
+a p,
+a svg {
+  pointer-events: none;
+}
+
 main {
   min-height: 90vh !important;
 }
@@ -149,7 +159,7 @@ button {
 }
 
 .cancel-btn {
-  background-color: #fb7185;
+  background-color: var(--light-slate);
 }
 
 span {
@@ -247,7 +257,7 @@ p.due-date:not(.overdue) {
   justify-content: center;
 }
 
-input[type="text"] {
+.task-form-container input[type="text"] {
   width: 20vw;
 }
 
@@ -262,4 +272,8 @@ input[type="text"] {
 select,
 option {
   font-family: sniglet;
+}
+
+.del-btn {
+  background-color: #fb7185;
 }
