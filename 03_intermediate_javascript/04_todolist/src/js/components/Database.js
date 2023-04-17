@@ -183,8 +183,10 @@ const Database = (() => {
         ? { ...task, projectName, description, priority, dueDate, dateCategory }
         : task
     );
-
+    // console.log(currentTasks);
     setTasks(currentTasks);
+
+    return getAllTasks().find((task) => task.id === taskID);
   };
 
   const completeTask = (taskID) => {

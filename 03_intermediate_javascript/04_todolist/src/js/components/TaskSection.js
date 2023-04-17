@@ -44,13 +44,13 @@ const TaskTitle = (canAdd, taskNum) => {
 };
 
 const TaskListDiv = (tasks) => {
-  console.log(tasks);
   const taskList = document.createElement("section");
   taskList.classList.add("task-list", "flex-col");
   tasks.forEach((task) => {
     const taskDiv = TaskDiv(task);
     taskList.appendChild(taskDiv);
   });
+
   return taskList;
 };
 
@@ -108,10 +108,11 @@ export const TaskForm = (projectTitles, task) => {
   const delBtnClass = task === undefined ? "hide" : "";
   const addBtnName = task === undefined ? "Add" : "Edit";
   const addId = task === undefined ? "add-task-btn" : "edit-task-btn";
+  //  <input type="date" name="" id="task-date" value="${dueDateValue}"/>
   form.innerHTML = `
 <div>
   <input type="text" name="" id="task-description-input" placeholder="${taskDesPlaceHolder}" value="${taskValue}" required/>
-  <input type="date" name="" id="task-date" value="${dueDateValue}"/>
+  <input type="text" id="task-date" placeholder="Schedule" onfocus="(this.type='date')" value="${dueDateValue}">
 </div>
 <div >
   

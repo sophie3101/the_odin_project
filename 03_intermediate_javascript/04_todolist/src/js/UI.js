@@ -69,11 +69,6 @@ const UI = () => {
 
     if (taskSection !== undefined) {
       document.querySelector(".task-container").replaceWith(taskSection);
-      // const main = document.querySelector("main");
-      // if (document.querySelector(".task-container") !== null)
-      //   main.removeChild(document.querySelector(".task-container"));
-
-      // main.appendChild(taskSection);
     }
   };
 
@@ -168,16 +163,18 @@ const UI = () => {
     //if user edit task
     else if (action === "editTask") {
       const taskID = taskDiv.id;
-      Database.modifyTask(projectName, description, priority, dueDate, taskID);
-      const edittedTaskDiv = TaskDiv({
-        id: taskID,
+      const edditedTask = Database.modifyTask(
         projectName,
         description,
         priority,
         dueDate,
-      });
+        taskID
+      );
+
+      const edittedTaskDiv = TaskDiv(edditedTask);
       taskDiv.replaceWith(edittedTaskDiv);
     }
+
     //user delete task
     else {
       Database.deleteTask(taskDiv.id);
@@ -186,6 +183,7 @@ const UI = () => {
     }
     //remove task form
     document.querySelector(".task-form-container").remove();
+
     if (action === "deleteTask") {
       //update title
       showTasks(document.querySelector(".selected").dataset.title);

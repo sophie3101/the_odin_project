@@ -5,9 +5,10 @@ const Handlers = () => {
 
   const renderListeners = () => {
     document.onclick = (e) => {
+      if (e.target.matches("#task-date")) return;
       e.preventDefault();
       // console.log("click", e.target);
-      // // when user select any div in navigation bar
+      // when user select any div in navigation bar
       if (
         e.target.matches(".link-project") ||
         e.target.matches(".link-default-menu")
