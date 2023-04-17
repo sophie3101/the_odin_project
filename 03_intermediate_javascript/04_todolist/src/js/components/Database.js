@@ -7,6 +7,13 @@ const Database = (() => {
     localStorage.setItem("username", username);
   };
 
+  const getUserName = () => {
+    if (localStorage.getItem("username") === null) {
+      return "Sophie";
+    }
+    return localStorage.getItem("username")[0];
+  };
+
   const setDueDateCategory = (date) => {
     const dueDate = moment(date, "YYYY-MM-DD");
     if (dueDate.isSame(moment(), "day")) return "today";
@@ -16,9 +23,9 @@ const Database = (() => {
   };
 
   const initializeDatabase = () => {
-    console.log("is database empty? ", isDatabaseEmpty());
+    // console.log("is database empty? ", isDatabaseEmpty());
     clearDatabase();
-    if (isDatabaseEmpty()) addDummyData();
+    addDummyData();
 
     let currentTasks = getAllTasks();
 
@@ -91,7 +98,7 @@ const Database = (() => {
   const getAllProjects = () =>
     JSON.parse(localStorage.getItem("projects")) ?? [];
 
-  const isDatabaseEmpty = () => getAllTasks().length === 0;
+  // const isDatabaseEmpty = () => getAllTasks().length === 0;
 
   const clearDatabase = () => localStorage.clear();
 
@@ -188,18 +195,25 @@ const Database = (() => {
     setTasks(currentTasks);
   };
 
+  const getCurrentTasks = () => {
+    // get task that is not completed
+    return getAllTasks().filter((task) => task.status === false);
+  };
+
   const getTasksByDateCategory = (dateCategory) => {
-    return getAllTasks().filter((task) => task.dateCategory === dateCategory);
+    return getAllTasks().filter(
+      (task) => task.dateCategory === dateCategory && !task.status
+    );
   };
 
   const getImportantTasks = () =>
-    getAllTasks().filter((task) => task.priority === "high");
+    getAllTasks().filter((task) => task.priority === "high" && !task.status);
 
   const getCompletedTasks = () => getAllTasks().filter((task) => task.status);
 
   const getTasksByProjectName = (targetProjectName) => {
     return getAllTasks().filter(
-      (task) => task.projectName === targetProjectName
+      (task) => task.projectName === targetProjectName && !task.status
     );
   };
 
@@ -214,7 +228,7 @@ const Database = (() => {
     printAllProjects,
     addTask,
     addProject,
-    addDummyData,
+    getCurrentTasks,
     getTasksByDateCategory,
     getImportantTasks,
     getCompletedTasks,
@@ -224,6 +238,8 @@ const Database = (() => {
     deleteTask,
     modifyTask,
     completeTask,
+    getUserName,
+    setUserName,
   };
 })();
 

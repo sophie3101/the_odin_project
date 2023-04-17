@@ -61,21 +61,6 @@ const DefaultProjectMenuSection = (projects) => {
   return projectMenuSection;
 };
 
-export const getProjectLink_deprecated = (projectName) => {
-  const idx = Math.floor(Math.random() * randomIcons.length);
-  const icon = randomIcons[idx];
-  randomIcons.splice(idx, 1);
-  iconMap[projectName] = icon;
-  return `<a href="" class="link-project flex-row" data-title="${projectName}">
-            <div> 
-              <i class="fa-solid ${icon} fa-lg"></i>
-              <span>${projectName}</span> 
-            </div>
-            
-            <div class="delete-project" data-project=${projectName}><i class="fa-solid fa-xmark"></i> </div>
-          </a>`;
-};
-
 export const ProjectLink = (projectName) => {
   const icon = randomIcons[Math.floor(Math.random() * randomIcons.length)];
   //update iconMap
@@ -92,7 +77,7 @@ export const ProjectLink = (projectName) => {
 
 export const ProjectForm = () => {
   const form = document.createElement("form");
-  form.method = "post";
+  // form.method = "post";
   // form.action = "/";
   form.classList.add("form-project", "flex-col");
   form.innerHTML = ` 

@@ -44,7 +44,7 @@ html {
 /* header */
 header {
   background-color: var(--green);
-  height: 10vh;
+  height: 12vh;
   width: 100%;
   padding-inline: 2vw;
   color: var(--white-clr);
@@ -74,15 +74,14 @@ a svg {
 }
 
 main {
-  min-height: 90vh !important;
+  min-height: 88vh !important;
 }
 
 nav {
-  width: 18vw;
+  width: 20vw;
   min-height: inherit !important;
   background-color: var(--light-grey);
   padding: 2vh 1vw;
-
   gap: 2vh;
 }
 
@@ -282,11 +281,8 @@ p.due-date:not(.overdue) {
   color: inherit;
 }
 
-/* .task-card {
-  transition: background-position 5s ease;
-} */
-
-.selected-task {
+.selected-task,
+.marked-task {
   color: var(--medium-grey);
 }
 

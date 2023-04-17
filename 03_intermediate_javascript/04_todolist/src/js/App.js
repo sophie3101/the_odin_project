@@ -17,7 +17,7 @@ const App = () => {
     document.head.appendChild(
       Favicon(require("../images/checklist_favicon.png"))
     );
-    document.body.appendChild(Header());
+    document.body.appendChild(Header(Database.getUserName()));
     document.body.appendChild(
       MainSection(Database.getAllProjects(), Database.getAllTasks())
     );
@@ -37,6 +37,12 @@ const App = () => {
     const projectTitles = Array.from(
       document.querySelectorAll(".nav-project-menu > a")
     ).map((link) => link.dataset.title);
+
+    //when user update name
+    document.getElementById("username").onkeyup = (e) => {
+      e.preventDefault();
+      Database.setUserName(e.target.innerHTML);
+    };
     // when user select any div in navigation bar
     menuLinks.forEach(
       (link) =>
@@ -96,6 +102,7 @@ const App = () => {
           console.log(e);
           e.preventDefault();
           Database.deleteProject(e.target.dataset.project);
+
           e.target.parentNode.remove();
 
           document.querySelector("main").remove();
