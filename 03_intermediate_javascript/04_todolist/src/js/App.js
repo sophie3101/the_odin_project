@@ -10,7 +10,6 @@ import "../styles/index.css";
 import "@fortawesome/fontawesome-free/js/fontawesome";
 import "@fortawesome/fontawesome-free/js/solid";
 import "@fortawesome/fontawesome-free/js/regular";
-// import "@fortawesome/fontawesome-free/js/brands";
 
 const App = () => {
   const renderHomePage = () => {
@@ -33,7 +32,8 @@ const App = () => {
     const deleteProjectBtns = document.querySelectorAll(".delete-project");
     const addTaskBtn = document.querySelector(".add-task");
     const taskListSection = document.querySelector(".task-list");
-    const taskInfos = document.querySelectorAll(".task-info"); //the three dots;
+    const taskInfos = document.querySelectorAll(".task-info-popup"); //the three dots;
+    const circles = document.querySelectorAll(".task-check");
     const projectTitles = Array.from(
       document.querySelectorAll(".nav-project-menu > a")
     ).map((link) => link.dataset.title);
@@ -134,15 +134,23 @@ const App = () => {
           taskDiv.classList.toggle("hide");
           taskDiv.insertAdjacentElement("afterend", taskForm);
           handleTaskEvents(taskForm, false, taskDiv);
-          // // when user click cancel button
-          // document.getElementById("cancel-task-btn").onclick = (e) => {
-          //   console.log("click cancle adding task ", e.target);
-          //   taskForm.remove();
-          //   taskDiv.classList.toggle("hide");
-          // };
-
-          Database.printAllTasks();
           renderListeners();
+        })
+    );
+
+    // when user click circle to indicate task is done
+    circles.forEach(
+      (circle) =>
+        (circle.onclick = (e) => {
+          console.log("clicking check task ", e);
+          const taskDiv = e.target.parentNode;
+          e.target.classList.add("circle-checked");
+          taskDiv.classList.add("selected-task");
+          // console.log(taskDiv);
+          Database.completeTask(taskDiv.id);
+          window.setTimeout(() => {
+            taskDiv.style.display = "none";
+          }, 1000);
         })
     );
   };
@@ -193,10 +201,10 @@ const App = () => {
           dueDate,
         });
         taskDiv.replaceWith(edittedTaskDiv);
-        Database.printAllTasks();
       }
 
       //remove TASK FORM
+      console.log("remove taskForm");
       taskForm.remove();
     };
 

@@ -57,17 +57,17 @@ export const TaskDiv = (task) => {
   const taskDiv = document.createElement("div");
   taskDiv.classList.add("task-card", "flex-row");
   taskDiv.id = task.id;
-  // taskDiv.setAttribute("data-priority", task.priority);
+  // taskDiv.setAttribute("data-priority", task.priority);<div class="task-check" ><i class="fa-regular fa-circle fa-sm ${task.priority}-priority"></i></i></div>
   taskDiv.innerHTML = `
-  <div class="task-status icon-container" ><i class="fa-regular fa-circle fa-sm ${task.priority}-priority"></i></i></div>
+  <a class="task-check ${task.priority}-priority" ></a>
   <div class="task-detail flex-col">
-    <p>${task.description} </p>
+    <p >${task.description} </p>
     <div class="flex-row">
       <p class="project-name">${task.projectName} &nbsp</p>
       <p class="due-date ${task.dateCategory}"> ${task.dueDate}</p>
     </div>
   </div>
-  <div><a class="task-info"> <i class="fa-solid fa-ellipsis fa-xs"></i><a></div>`;
+  <div><a class="task-info-popup"> <i class="fa-solid fa-ellipsis fa-xs"></i><a></div>`;
   return taskDiv;
 };
 

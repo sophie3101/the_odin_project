@@ -3,6 +3,10 @@ import Task from "./Task";
 const moment = require("moment");
 
 const Database = (() => {
+  const setUserName = (username) => {
+    localStorage.setItem("username", username);
+  };
+
   const setDueDateCategory = (date) => {
     const dueDate = moment(date, "YYYY-MM-DD");
     if (dueDate.isSame(moment(), "day")) return "today";
@@ -17,8 +21,8 @@ const Database = (() => {
     if (isDatabaseEmpty()) addDummyData();
 
     let currentTasks = getAllTasks();
+
     // add dueDateCategory to each task
-    // currentTasks.forEach((task) => setDateCategory(task));
     currentTasks.forEach(
       (task) =>
         (task = Object.assign(task, {
@@ -31,14 +35,7 @@ const Database = (() => {
     printAllProjects();
   };
 
-  // const setDateCategory = (task) => {
-  //   return Object.assign(task, {
-  //     dateCategory: setDueDateCategory(task.dueDate),
-  //   });
-  // };
-
   const addDummyData = () => {
-    const today = moment().format("YYYY-MM-DD");
     addTask(
       "reminder",
       "go to sleep at 10",
@@ -47,7 +44,7 @@ const Database = (() => {
     );
     addTask(
       "reminder",
-      "wake up at 1",
+      "wake up at 5",
       "medium",
       moment().add(10, "days").format("YYYY-MM-DD")
     );
@@ -59,29 +56,34 @@ const Database = (() => {
     );
     addTask(
       "reminder2",
-      "go to sleep at 9",
+      "swimming",
       "low",
       moment().add(20, "days").format("YYYY-MM-DD")
     );
     addTask(
       "reminder",
-      "complete a task",
+      "buy an apple",
       "high",
       moment().add(-100, "days").format("YYYY-MM-DD")
     );
     addTask(
       "reminder",
-      "go to sleep at 0",
+      "go grocery",
       "medium",
       moment().add(100, "days").format("YYYY-MM-DD")
     );
     addTask(
       "reminder2",
-      "go to sleep at 1",
+      "walk for an hour",
       "medium",
       moment().add(10, "days").format("YYYY-MM-DD")
     );
-    addTask("reminder", "set up reminder", "low", today);
+    addTask(
+      "reminder",
+      "set up reminder",
+      "low",
+      moment().format("YYYY-MM-DD")
+    );
   };
 
   const getAllTasks = () => JSON.parse(localStorage.getItem("tasks")) ?? [];
@@ -110,6 +112,7 @@ const Database = (() => {
 
   const deleteTask = (taskID) => {
     setTasks(getAllTasks().filter((task) => task.id !== taskID));
+    console.log("after deleting task ", printAllTasks());
   };
 
   const deleteProject = (projectName) => {
@@ -176,6 +179,15 @@ const Database = (() => {
 
     setTasks(currentTasks);
   };
+
+  const completeTask = (taskID) => {
+    let currentTasks = getAllTasks();
+    currentTasks.forEach((task) =>
+      task.id === taskID ? (task.status = true) : task
+    );
+    setTasks(currentTasks);
+  };
+
   const getTasksByDateCategory = (dateCategory) => {
     return getAllTasks().filter((task) => task.dateCategory === dateCategory);
   };
@@ -192,6 +204,7 @@ const Database = (() => {
   };
 
   return {
+    setUserName,
     initializeDatabase,
     getAllTasks,
     getAllProjects,
@@ -210,6 +223,7 @@ const Database = (() => {
     getTask,
     deleteTask,
     modifyTask,
+    completeTask,
   };
 })();
 

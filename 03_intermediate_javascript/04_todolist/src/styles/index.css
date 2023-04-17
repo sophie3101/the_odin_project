@@ -213,7 +213,6 @@ span {
   font-family: dongo;
   font-size: 3.5vh;
   padding-inline: 1vw;
-  align-items: baseline;
 }
 
 .task-detail {
@@ -231,17 +230,6 @@ span {
   font-weight: 600;
 }
 
-.high-priority {
-  color: var(--high-priority-cl);
-}
-
-.low-priority {
-  color: var(--low-priority-clr);
-}
-
-.medium-priority {
-  color: var(--medium-priority-clr);
-}
 /* color for date category */
 .overdue {
   color: var(--red);
@@ -249,6 +237,57 @@ span {
 
 p.due-date:not(.overdue) {
   visibility: hidden; /* dont show date of tasks in future or tasks of today*/
+}
+
+/* circle icon of each task */
+.task-check {
+  height: 3vh;
+  aspect-ratio: 1/1;
+  background-repeat: no-repeat;
+  /* transition: background-size 0.2s, color 0.4s; */
+  background-size: 0 0;
+  border-radius: 50%;
+}
+
+.high-priority {
+  background-image: linear-gradient(
+    var(--high-priority-cl),
+    var(--high-priority-cl)
+  );
+  color: var(--high-priority-cl);
+  border: 2px solid var(--high-priority-cl);
+}
+
+.low-priority {
+  color: var(--low-priority-clr);
+  border: 2px solid var(--low-priority-clr);
+  background-image: linear-gradient(
+    var(--low-priority-clr),
+    var(--low-priority-clr)
+  );
+}
+
+.medium-priority {
+  color: var(--medium-priority-clr);
+  border: 2px solid var(--medium-priority-clr);
+  background-image: linear-gradient(
+    var(--medium-priority-clr),
+    var(--medium-priority-clr)
+  );
+}
+
+.task-check:hover,
+.circle-checked {
+  background-size: 100% 100%;
+  color: inherit;
+}
+
+/* .task-card {
+  transition: background-position 5s ease;
+} */
+
+.selected-task {
+  color: var(--medium-grey);
 }
 
 /* ADD TASK FORM */
