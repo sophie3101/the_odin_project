@@ -1,0 +1,21 @@
+1. npm init to create package.json
+2. npm install webpack webpack-cli --save-dev
+3. create a webpack.config.js file that looks just like our file from the tutorial.
+4. npm install --save-dev html-webpack-plugin
+5. install babel: npm install -D babel-loader @babel/core @babel/preset-env webpack
+Instructios: https://github.com/babel/babel-loader
+
+6. type in terminal  npx webpack --watch
+
+FAO5lkjKaRE1se3rYk7IrgXKeRmJQ04x
+https://api.tomtom.com/search/2/geocode/De Ruijterkade 154, 1011 AC, Amsterdam.json?key={Your_API_Key}
+
+https://api.openweathermap.org/data/2.5/weather?lat=31.28437&lon=37.36726&appid=3fe3179e5a0375894120a6edea19e2e1
+
+or openapi also has geodecoing: https://openweathermap.org/api/geocoding-api
+https://api.openweathermap.org/geo/1.0/direct?q=Missouri%20City&limit=3&appid=3fe3179e5a0375894120a6edea19e2e1
+https://api.openweathermap.org/geo/1.0/zip?zip=77459&appid=3fe3179e5a0375894120a6edea19e2e1  
+api key: 3fe3179e5a0375894120a6edea19e2e1
+curent weather: https://api.openweathermap.org/data/2.5/weather?lat=9.2408369&lon=-95.5377215&appid=3fe3179e5a0375894120a6edea19e2e1
+in 5 days. every 3 hour
+https://api.openweathermap.org/data/2.5/forecast?lat=9.2408369&lon=-95.5377215&appid=3fe3179e5a0375894120a6edea19e2e1
