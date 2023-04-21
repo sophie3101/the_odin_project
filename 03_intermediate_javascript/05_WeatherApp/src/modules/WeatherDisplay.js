@@ -15,23 +15,22 @@ const WeatherDisplay = (curWeather, icons) => {
 
 const CurrentWeatherHeader = (weather) => {
   const header = document.createElement("div");
-  header.classList.add("weather-header", "flex-row");
-  // header.innerHTML = `
-  // <div class="city-name">${weather.cityName} </div>
-  // <div class="date">${weather.date} </div>
-  // </div>`;
+  header.classList.add("weather-header", "flex-col");
   header.innerHTML = `
-  <div class="title flex-col">
-    <div class="city-name">${weather.cityName} </div>
-    <div class="date">${weather.date} </div>
-  </div>
- 
-  <label class="switch">
-    <input type="checkbox" id="togBtn">
-    <div class="slider round"></div>
-  </label>
-  
- `;
+  <div class="city-name">${weather.cityName} </div>
+  <div class="date">${weather.date} </div>
+  </div>`;
+  //   header.innerHTML = `
+  //   <div class="title flex-col">
+  //     <div class="city-name">${weather.cityName} </div>
+  //     <div class="date">${weather.date} </div>
+  //   </div>
+
+  //   <label class="switch">
+  //     <input type="checkbox" id="togBtn">
+  //     <div class="slider round"></div>
+  //   </label>
+  //  `;
 
   return header;
 };
@@ -44,7 +43,7 @@ const CurrentWeatherTemp = (weather) => {
     />  
   </div>
   <div class="weather-temp flex-col">
-    <div class="temp">${weather.temp}&deg;</div>
+    <div class="temp current-temp" data-tempf="${weather.temp}">${weather.temp} &#8457</div>
     <div class='condition'>${weather.weatherDesr}</div>
   </div>
 </div>`;
@@ -58,7 +57,7 @@ const CurrentWeatherInfo = (weather, icons) => {
       <div class="icon-container">
         <img src="${icons.lowTemp}" alt="highTemp">
       </div>
-      <p class="info-r1">${weather.tempMin}&deg;</p>      
+      <p class="info-r1 temp" data-tempf="${weather.tempMin}">${weather.tempMin} &#8457</p>      
       <p class="info-r2">Low</p>
     </div>
 
@@ -82,7 +81,7 @@ const CurrentWeatherInfo = (weather, icons) => {
       <div class="icon-container">
         <img src="${icons.highTemp}" alt="highTemp">
       </div>
-      <p class="info-r1">${weather.tempMax}&deg;</p>     
+      <p class="info-r1 temp" data-tempf="${weather.tempMax}">${weather.tempMax} &#8457</p>     
       <p class="info-r2">High</p>
     </div>
 

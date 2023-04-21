@@ -5,11 +5,11 @@ const Weather = (data) => {
   const weatherData = data.weather[0];
   const icon = weatherData.icon;
   const weatherDesr = weatherData.description;
-  const temp = data.main.temp;
+  const temp = KtoF(data.main.temp);
   const tempFeelLike = data.main.feels_like;
   const humidity = data.main.humidity;
-  const tempMin = data.main.temp_min;
-  const tempMax = data.main.temp_max;
+  const tempMin = KtoF(data.main.temp_min);
+  const tempMax = KtoF(data.main.temp_max);
   const pressure = data.main.pressure;
   const windSpeed = data.wind.speed;
 
@@ -45,6 +45,10 @@ const Weather = (data) => {
     sunrise,
     sunset,
   };
+};
+
+const KtoF = (temp) => {
+  return ((temp - 273.15) * (9 / 5) + 32).toFixed(2);
 };
 
 export default Weather;

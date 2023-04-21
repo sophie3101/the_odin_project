@@ -68,3 +68,23 @@ document.querySelector(".searchButton").onclick = (e) => {
     }
   }
 };
+
+// switch temperature
+document.querySelector("#togBtn").onchange = (e) => {
+  // false: F, uncheck, and Celsius is checked
+  console.log(e.target.checked);
+  const temps = Array.from(document.querySelectorAll(".temp"));
+  if (temps.length !== 0) {
+    temps.forEach((element) => {
+      const temp = element.innerHTML.slice(0, -1);
+      if (e.target.checked) {
+        // convert from F to C
+        const convertedTemp = ((temp - 32) * 5) / 9;
+        element.innerHTML = `${convertedTemp.toFixed(2)} &#8451`;
+      } else {
+        console.log(element, element.dataset);
+        element.innerHTML = `${element.dataset.tempf} &#8457`;
+      }
+    });
+  }
+};
