@@ -1,19 +1,11 @@
 import Favicon from "./modules/Favicon";
 import Footer from "./modules/Footer";
 import SearchBar from "./modules/SearchBar";
-import WeatherDisplay from "./modules/WeatherDisplay";
-import Weather from "./modules/Weather";
-import { getCoordinates, getWeatherData } from "./modules/services";
+import { showLoading, displayWeather, loadSearchResult } from "./modules/DOM";
+import { getCoordinates } from "./modules/services";
 
 require("./modules/Styles/style.css");
-const icons = {
-  highTemp: require("./images/high-temperature.png"),
-  lowTemp: require("./images/low-temperature.png"),
-  sunset: require("./images/sunset.png"),
-  sunrise: require("./images/sunrise.png"),
-  wind: require("./images/wind.png"),
-  humidity: require("./images/humidity.png"),
-};
+
 document.head.appendChild(Favicon(require("./images/weather.png")));
 
 document.body.appendChild(SearchBar(require("./images/search.png")));
@@ -24,31 +16,55 @@ document.body.appendChild(
   )
 );
 
+//get current location, if cannot default is Austin
+const options = {
+  enableHighAccuracy: true,
+  timeout: 1000,
+  maximumAge: 0,
+};
+
+function success(pos) {
+  const crd = pos.coords;
+
+  console.log("Your current position is:");
+  console.log(`Latitude : ${crd.latitude}`);
+  console.log(`Longitude: ${crd.longitude}`);
+  console.log(`More or less ${crd.accuracy} meters.`);
+  displayWeather({ lat: `${crd.latitude}`, lon: `${crd.longitude}` });
+}
+
+function error(err) {
+  console.warn(`ERROR(${err.code}): ${err.message}`);
+  displayWeather({ lat: 30.2711286, lon: -97.7436995 });
+}
+
+navigator.geolocation.getCurrentPosition(success, error, options);
+
 document.querySelector(".searchButton").onclick = (e) => {
   e.preventDefault();
   const searchCityName = document.querySelector(".searchTerm").value;
   if (searchCityName.length !== 0) {
     try {
-      displayWeather(searchCityName);
+      getCoordinates(searchCityName)
+        .then((data) => {
+          console.log(data);
+          loadSearchResult(data);
+        })
+        .then(() => {
+          document.querySelectorAll(".result").forEach(
+            (resultLink) =>
+              (resultLink.onclick = (e) => {
+                e.preventDefault();
+                const coordinate = {
+                  lat: e.target.dataset.lat,
+                  lon: e.target.dataset.lon,
+                };
+                displayWeather(coordinate);
+              })
+          );
+        });
     } catch {
       console.error("ERROR");
     }
   }
 };
-const displayWeather = (cityName) => {
-  console.log("city name ", cityName);
-  getCoordinates(cityName)
-    .then((coordinate) => getWeatherData(coordinate))
-    .then((data) => {
-      console.log(data);
-      const weatherObj = Weather(data);
-      // console.log(weatherObj);
-      const weatherSection = WeatherDisplay(weatherObj, icons);
-      const currrentWeatherSection = document.querySelector("#current-weather");
-      if (currrentWeatherSection !== null) {
-        currrentWeatherSection.replaceWith(weatherSection);
-      } else document.body.appendChild(weatherSection);
-    });
-};
-
-displayWeather("Houston");

@@ -1,8 +1,8 @@
-* {
+/* * {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-}
+} */
 /* :root {
 } */
 section#current-weather {
@@ -18,7 +18,7 @@ section#current-weather div {
   margin-inline: 1vw;
 }
 
-div.title {
+div.weather-header {
   grid-area: 1/1/2/2;
   justify-self: start;
 }
@@ -31,14 +31,13 @@ div.title {
 
 div.weather-status {
   grid-area: 2/1/-1/2;
-  /* padding-inline: 1vw; */
   align-self: center;
   justify-content: space-around;
   border-right: 2px solid;
 }
 
 img.weather-icon {
-  filter: invert(100%);
+  /* filter: invert(100%); */
   width: 10vw;
 }
 
@@ -65,7 +64,6 @@ p.info-r2 {
 
 div.icon-container {
   grid-area: 1/1/-1/2;
-  /* width: 2vw; */
   height: inherit;
 }
 
@@ -75,24 +73,66 @@ div.icon-container img {
   filter: invert(100%);
 }
 
-/* div.card {
-  min-width: 100% !important;
+/* SWITCh */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 125px;
+  height: 40px;
 }
 
-div.title {
-  margin-block: 4vh;
-}
-div.title,
-div.card-inner {
-  min-width: 100%;
-  justify-content: space-around;
+.switch input {
+  display: none;
 }
 
-div.temp {
-  font-size: 8vh;
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #0891b2;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  border-radius: 34px;
 }
 
-.condition {
-  font-weight: 600;
-  font-size: 5vh;
-} */
+/* circle as pseudo element*/
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 30px;
+  width: 30px;
+  left: 3px;
+  bottom: 4px;
+  background-color: aliceblue;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+input#togBtn:checked + .slider {
+  background-color: #94a3b8;
+}
+
+input#togBtn:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(50px);
+}
+
+.slider:after {
+  content: "F";
+  color: #f8fafc;
+  display: inline-block;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  font-size: 1vh;
+}
+
+input#togBtn:checked + .slider:after {
+  content: "C";
+}

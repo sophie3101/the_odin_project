@@ -4,11 +4,6 @@ const WeatherDisplay = (curWeather, icons) => {
   //weather is an object
   const section = document.createElement("section");
   section.id = "current-weather";
-  // const currentWeatherDiv = CurrentWeather(curWeather);
-  // section.appendChild(currentWeatherDiv);
-  // const currentWeatherCard = CurrentWeather(curWeather);
-  // section.appendChild(currentWeatherCard);
-
   section.appendChild(CurrentWeatherHeader(curWeather));
   section.insertAdjacentHTML("beforeend", CurrentWeatherTemp(curWeather));
   section.insertAdjacentHTML(
@@ -20,11 +15,23 @@ const WeatherDisplay = (curWeather, icons) => {
 
 const CurrentWeatherHeader = (weather) => {
   const header = document.createElement("div");
-  header.classList.add("title", "flex-col");
+  header.classList.add("weather-header", "flex-row");
+  // header.innerHTML = `
+  // <div class="city-name">${weather.cityName} </div>
+  // <div class="date">${weather.date} </div>
+  // </div>`;
   header.innerHTML = `
-  <div class="city-name">${weather.cityName} </div>
-  <div class="date">${weather.date} </div>
-  </div>`;
+  <div class="title flex-col">
+    <div class="city-name">${weather.cityName} </div>
+    <div class="date">${weather.date} </div>
+  </div>
+ 
+  <label class="switch">
+    <input type="checkbox" id="togBtn">
+    <div class="slider round"></div>
+  </label>
+  
+ `;
 
   return header;
 };
@@ -97,43 +104,6 @@ const CurrentWeatherInfo = (weather, icons) => {
 
   </div>`;
   return div;
-};
-
-const CurrentWeather = (weather) => {
-  const cardDiv = document.createElement("div");
-  cardDiv.classList.add("card", "current-weather", "flex-col");
-  cardDiv.innerHTML = `  <div class="title flex-row">
-  <h3>Current Weather </h3>
-  <label for="">C or F</label>
-</div>`;
-
-  const div = document.createElement("div");
-  div.classList.add("card-inner", "flex-row");
-  div.innerHTML = `
-  <div class="weather-status flex-col">
-    <h3>${weather.cityName}</h3>
-    <div class="flex-row">
-      <img class="weather-icon"
-        src="https://openweathermap.org/img/wn/${weather.icon}@2x.png"
-      />
-      <div class="temp">${weather.temp}&deg;</div>
-    </div>
-    <div class='condition'>${weather.weatherDesr}</div>
-  </div>
-
-  <div class="weather-info flex-col">
-    <div id="weather-feellike">${weather.tempFeelLike}</div>
-    <div id="weather-low-high">
-      <p id="temp-high">${weather.tempMax}</p>
-      <p id="temp-low">${weather.tempMin}</p>
-    </div>
-    <div id="humidity">${weather.humidity}</div>
-    <div id="wind-speed">${weather.windSpeed}</div>
-    <div id="pressure">${weather.pressure}</div>
-  </div>
-  `;
-  cardDiv.appendChild(div);
-  return cardDiv;
 };
 
 const CurrentWeatherByHour = () => {};
