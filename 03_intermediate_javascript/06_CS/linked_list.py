@@ -18,6 +18,13 @@ class LinkedList:
 
         print('null')
 
+    def append_recursive(self,value, node):
+        if node.next is None:
+            node.next = Node(value)
+            return
+       
+        self.append_recursive(value, node.next)
+
     def append(self, value): #add to the end of list
         if self.head is None:
             self.head = Node(value)
@@ -33,6 +40,11 @@ class LinkedList:
         newNode.next = self.head 
         self.head = newNode
 
+    def size_recursive(self, node):
+        if node == None:
+            return 0
+        return 1 + self.size_recursive(node.next)
+    
     def size(self):
         total = 1
         currentNode = self.head 
@@ -133,6 +145,7 @@ def implementLinkList():
     ll.toString()
     ll.prepend(4) 
     ll.append(10)
+    ll.append_recursive(11, ll.head)
     print('toString : ')
     ll.toString()
     size = ll.size()
@@ -141,7 +154,7 @@ def implementLinkList():
     print('pop node ', pop.value)
     ll.toString()
     print(ll.contains(1))
-    print(ll.contains_recursive(1))
+    # print(ll.contains_recursive(1))
     # print(ll.find(4))
     ll.insertAt(22, 1)
     ll.toString()
@@ -149,6 +162,11 @@ def implementLinkList():
     ll.toString()
     print(ll.tail().value)
     # print(ll.contains(100))
+    print("size ",ll.size())
+    print("size recursive ", ll.size_recursive(ll.head))
+
+def implementLinkedList_recursive():
+    ll = LinkedList()
 
 if __name__ == "__main__":
     implementLinkList()

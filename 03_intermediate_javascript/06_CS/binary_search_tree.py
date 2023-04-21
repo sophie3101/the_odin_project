@@ -65,6 +65,7 @@ class Tree:
             node.right = self.insert(value, node.right)
 
         return node
+    
     def minValueNode(self, node): 
         # find closest node with min value to the node
         # => look at all the left nodes of the right node with regard to that target node

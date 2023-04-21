@@ -10,12 +10,11 @@ def merge(L, R):
       output.append(R[j])
       j+=1
   
-#  remaining elemnts picked from current pointer
+  #  remaining elemnts picked from current pointer
   output.extend(L[i:])
   output.extend(R[j:])
 
   return output
-
 
 def merge_sort(arr):
   if len(arr) == 1:
